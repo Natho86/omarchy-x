@@ -18,7 +18,7 @@ menu() {
     fi
   fi
 
-  echo -e "$options" | walker --dmenu --theme dmenu_250 -p "$prompt…" "${args[@]}"
+  echo -e "$options" | rofi -dmenu -i -p "$prompt" "${args[@]}"
 }
 
 terminal() {
@@ -54,7 +54,7 @@ show_learn_menu() {
   case $(menu "Learn" "  Keybindings\n  Omarchy\n  Hyprland\n󰣇  Arch\n  Neovim\n󱆃  Bash") in
   *Keybindings*) omarchy-menu-keybindings ;;
   *Omarchy*) open_web "https://manuals.omamix.org/2/the-omarchy-manual" ;;
-  *Hyprland*) open_web "https://wiki.hypr.land/" ;;
+  *i3*) open_web "https://i3wm.org/docs/" ;;
   *Arch*) open_web "https://wiki.archlinux.org/title/Main_page" ;;
   *Bash*) open_web "https://devhints.io/bash" ;;
   *Neovim*) open_web "https://www.lazyvim.org/keymaps" ;;
@@ -93,7 +93,7 @@ show_capture_menu() {
   case $(menu "Capture" "  Screenshot\n  Screenrecord\n󰃉  Color") in
   *Screenshot*) show_screenshot_menu ;;
   *Screenrecord*) show_screenrecord_menu ;;
-  *Color*) pkill hyprpicker || hyprpicker -a ;;
+  *Color*) gpick --pick ;;
   *) show_main_menu ;;
   esac
 }
@@ -120,7 +120,7 @@ show_toggle_menu() {
   *Screensaver*) omarchy-launch-screensaver ;;
   *Nightlight*) omarchy-toggle-nightlight ;;
   *Idle*) omarchy-toggle-idle ;;
-  *Bar*) pkill -SIGUSR1 waybar ;;
+  *Bar*) polybar-msg cmd toggle ;;
   *) show_main_menu ;;
   esac
 }
@@ -136,9 +136,9 @@ show_setup_menu() {
   *Wifi*) alacritty --class=Impala -e impala ;;
   *Bluetooth*) blueberry ;;
   *Power*) show_setup_power_menu ;;
-  *Monitors*) edit_in_nvim ~/.config/hypr/monitors.conf ;;
-  *Keybindings*) edit_in_nvim ~/.config/hypr/bindings.conf ;;
-  *Input*) edit_in_nvim ~/.config/hypr/input.conf ;;
+  *Monitors*) arandr ;;
+  *Keybindings*) edit_in_nvim ~/.config/i3/config ;;
+  *Input*) edit_in_nvim ~/.config/i3/config ;;
   *Config*) show_setup_config_menu ;;
   *Fingerprint*) present_terminal omarchy-setup-fingerprint ;;
   *Fido2*) present_terminal omarchy-setup-fido2 ;;
@@ -158,13 +158,11 @@ show_setup_power_menu() {
 
 show_setup_config_menu() {
   case $(menu "Setup" "  Hyprland\n  Hypridle\n  Hyprlock\n  Hyprsunset\n  Swayosd\n󰌧  Walker\n󰍜  Waybar\n󰞅  XCompose") in
-  *Hyprland*) edit_in_nvim ~/.config/hypr/hyprland.conf ;;
-  *Hypridle*) edit_in_nvim ~/.config/hypr/hypridle.conf && omarchy-restart-hypridle ;;
-  *Hyprlock*) edit_in_nvim ~/.config/hypr/hyprlock.conf ;;
-  *Hyprsunset*) edit_in_nvim ~/.config/hypr/hyprsunset.conf && omarchy-restart-hyprsunset ;;
-  *Swayosd*) edit_in_nvim ~/.config/swayosd/config.toml && omarchy-restart-swayosd ;;
-  *Walker*) edit_in_nvim ~/.config/walker/config.toml && omarchy-restart-walker ;;
-  *Waybar*) edit_in_nvim ~/.config/waybar/config.jsonc && omarchy-restart-waybar ;;
+  *i3*) edit_in_nvim ~/.config/i3/config && omarchy-refresh-i3 ;;
+  *Picom*) edit_in_nvim ~/.config/picom/picom.conf && omarchy-refresh-picom ;;
+  *Polybar*) edit_in_nvim ~/.config/polybar/config.ini && omarchy-restart-polybar ;;
+  *Dunst*) edit_in_nvim ~/.config/dunst/dunstrc && omarchy-restart-dunst ;;
+  *Rofi*) edit_in_nvim ~/.config/rofi/config.rasi ;;
   *XCompose*) edit_in_nvim ~/.XCompose && omarchy-restart-xcompose ;;
   *) show_main_menu ;;
   esac
@@ -330,7 +328,7 @@ show_system_menu() {
   case $(menu "System" "  Lock\n󰤄  Suspend\n  Relaunch\n󰜉  Restart\n󰐥  Shutdown") in
   *Lock*) omarchy-lock-screen ;;
   *Suspend*) systemctl suspend ;;
-  *Relaunch*) uwsm stop ;;
+  *Relaunch*) i3-msg restart ;;
   *Restart*) systemctl reboot ;;
   *Shutdown*) systemctl poweroff ;;
   *) show_main_menu ;;
@@ -343,7 +341,7 @@ show_main_menu() {
 
 go_to_menu() {
   case "${1,,}" in
-  *apps*) walker -p "Launch…" ;;
+  *apps*) rofi -show drun ;;
   *learn*) show_learn_menu ;;
   *style*) show_style_menu ;;
   *theme*) show_theme_menu ;;

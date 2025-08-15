@@ -1,0 +1,23 @@
+# Kanagawa theme configuration for dunst
+
+[urgency_low]
+    background = "#1f1f28"
+    foreground = "#dcd7ba"
+    frame_color = "#54546d"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1f1f28"
+    foreground = "#dcd7ba"
+    frame_color = "#dcd7ba"
+    timeout = 5
+
+[urgency_critical]
+    background = "#1f1f28"
+    foreground = "#e82424"
+    frame_color = "#e82424"
+    timeout = 0
+
+# Custom notification styling
+[global]
+    frame_color = "#dcd7ba"

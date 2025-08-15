@@ -10,8 +10,8 @@ TOTAL=${#BACKGROUNDS[@]}
 
 if [[ $TOTAL -eq 0 ]]; then
   notify-send "No background was found for theme" -t 2000
-  pkill -x swaybg
-  setsid uwsm app -- swaybg --color '#000000' >/dev/null 2>&1 &
+  # Set solid color background with feh
+  feh --bg-fill --no-xinerama -B black >/dev/null 2>&1
 else
   # Get current background from symlink
   if [[ -L "$CURRENT_BACKGROUND_LINK" ]]; then
@@ -42,7 +42,9 @@ else
   # Set new background symlink
   ln -nsf "$NEW_BACKGROUND" "$CURRENT_BACKGROUND_LINK"
 
-  # Relaunch swaybg
-  pkill -x swaybg
-  setsid uwsm app -- swaybg -i "$CURRENT_BACKGROUND_LINK" -m fill >/dev/null 2>&1 &
+  # Set background with feh
+  feh --bg-scale "$NEW_BACKGROUND" >/dev/null 2>&1
+  
+  # Notify user
+  notify-send "Background changed" "$(basename "$NEW_BACKGROUND")" -t 2000
 fi

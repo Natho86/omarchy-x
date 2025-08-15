@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Create rofi config directory if it doesn't exist
+mkdir -p ~/.config/rofi
+
+# Update symlink to current configuration
+ln -sf ~/.local/share/omarchy/default/rofi/config.rasi ~/.config/rofi/config.rasi
+
+notify-send "Rofi configuration refreshed" -t 2000

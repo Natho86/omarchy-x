@@ -1,0 +1,23 @@
+# Matte Black theme configuration for dunst
+
+[urgency_low]
+    background = "#1e1e1e"
+    foreground = "#8a8a8d"
+    frame_color = "#3a3a3a"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1e1e1e"
+    foreground = "#8a8a8d"
+    frame_color = "#8a8a8d"
+    timeout = 5
+
+[urgency_critical]
+    background = "#1e1e1e"
+    foreground = "#ff6b6b"
+    frame_color = "#ff6b6b"
+    timeout = 0
+
+# Custom notification styling
+[global]
+    frame_color = "#8a8a8d"

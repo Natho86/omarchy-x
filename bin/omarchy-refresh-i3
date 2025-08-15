@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Create necessary config directories
+mkdir -p ~/.config/{i3,polybar,picom,dunst,rofi}
+
+# Update symlinks to current configurations
+ln -sf ~/.local/share/omarchy/default/i3/config ~/.config/i3/config
+ln -sf ~/.local/share/omarchy/default/polybar/config.ini ~/.config/polybar/config.ini  
+ln -sf ~/.local/share/omarchy/default/picom.conf ~/.config/picom/picom.conf
+ln -sf ~/.local/share/omarchy/default/dunst/dunstrc ~/.config/dunst/dunstrc
+ln -sf ~/.local/share/omarchy/default/rofi/config.rasi ~/.config/rofi/config.rasi
+
+# Reload i3 configuration
+i3-msg reload

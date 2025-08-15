@@ -1,9 +1,14 @@
 #!/bin/bash
 
-if pgrep -x hypridle >/dev/null; then
-  pkill -x hypridle
+# Check if xidlehook is running (our idle daemon)
+if pgrep -x xidlehook >/dev/null; then
+  pkill -x xidlehook
   notify-send "Stop locking computer when idle"
 else
-  uwsm app -- hypridle >/dev/null 2>&1 &
+  # Start xidlehook - lock after 5 minutes of inactivity
+  xidlehook \
+    --not-when-fullscreen \
+    --not-when-audio \
+    --timer 300 'omarchy-lock-screen' '' >/dev/null 2>&1 &
   notify-send "Now locking computer when idle"
 fi

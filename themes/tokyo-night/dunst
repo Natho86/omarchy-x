@@ -1,0 +1,23 @@
+# Tokyo Night theme configuration for dunst
+
+[urgency_low]
+    background = "#1a1b26"
+    foreground = "#a9b1d6"
+    frame_color = "#565f89"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1a1b26"
+    foreground = "#a9b1d6"
+    frame_color = "#33ccff"
+    timeout = 5
+
+[urgency_critical]
+    background = "#1a1b26"
+    foreground = "#ff6b6b"
+    frame_color = "#ff6b6b"
+    timeout = 0
+
+# Custom notification styling
+[global]
+    frame_color = "#33ccff"

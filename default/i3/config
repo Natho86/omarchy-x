@@ -1,0 +1,193 @@
+# i3 config file (v4)
+# Omarchy-X i3 configuration
+
+# Set mod key (Mod4 = Super/Windows key)
+set $mod Mod4
+
+# Font for window titles and bar
+font pango:Liberation Sans 11
+
+# Use Mouse+$mod to drag floating windows
+floating_modifier $mod
+
+# Variables
+set $terminal alacritty
+set $fileManager nautilus
+set $browser chromium
+set $music spotify
+set $passwordManager 1password
+
+# Application shortcuts
+bindsym $mod+Return exec $terminal
+bindsym $mod+f exec $fileManager
+bindsym $mod+b exec $browser
+bindsym $mod+m exec $music
+bindsym $mod+n exec $terminal -e nvim
+bindsym $mod+t exec $terminal -e btop
+bindsym $mod+d exec $terminal -e lazydocker
+bindsym $mod+slash exec $passwordManager
+bindsym $mod+g exec discord
+bindsym $mod+o exec obsidian --disable-gpu
+
+# Window management
+bindsym $mod+w kill
+bindsym $mod+v floating toggle
+bindsym $mod+Shift+F11 fullscreen toggle
+
+# Focus management
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move windows
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Split orientation
+bindsym $mod+h split h
+bindsym $mod+j split v
+
+# Toggle split orientation (closest to Hyprland's togglesplit)
+bindsym $mod+p layout toggle split
+
+# Layout modes
+bindsym $mod+s layout stacking
+bindsym $mod+Tab layout tabbed
+bindsym $mod+e layout toggle split
+
+# Focus parent/child
+bindsym $mod+a focus parent
+
+# Alt+Tab cycling
+bindsym Alt+Tab focus next
+bindsym Alt+Shift+Tab focus prev
+
+# Window resizing
+bindsym $mod+minus resize shrink width 10 px or 10 ppt
+bindsym $mod+equal resize grow width 10 px or 10 ppt
+bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
+
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move to workspaces
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Reload/restart i3
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+# Menus and utilities
+bindsym $mod+space exec rofi -show drun
+bindsym $mod+Alt+space exec omarchy-menu
+bindsym $mod+Escape exec omarchy-menu system
+bindsym $mod+k exec omarchy-menu-keybindings
+
+# Screenshots
+bindsym Print exec omarchy-cmd-screenshot
+bindsym Shift+Print exec omarchy-cmd-screenshot window
+bindsym Ctrl+Print exec omarchy-cmd-screenshot output
+bindsym Alt+Print exec omarchy-cmd-screenrecord
+bindsym Ctrl+Alt+Print exec omarchy-cmd-screenrecord output
+
+# Color picker
+bindsym $mod+Print exec gpick --pick
+
+# Notifications
+bindsym $mod+comma exec dunstctl close
+bindsym $mod+Shift+comma exec dunstctl close-all
+bindsym $mod+Ctrl+comma exec dunstctl set-paused toggle
+
+# Aesthetics
+bindsym $mod+Shift+space exec polybar-msg cmd toggle
+bindsym $mod+Ctrl+space exec omarchy-theme-bg-next
+bindsym $mod+Shift+Ctrl+space exec omarchy-menu theme
+
+# Idle and nightlight
+bindsym $mod+Ctrl+i exec omarchy-toggle-idle
+bindsym $mod+Ctrl+n exec omarchy-toggle-nightlight
+
+# Media keys
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# Media control
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+
+# Apple Display brightness
+bindsym Ctrl+F1 exec omarchy-cmd-apple-display-brightness -5000
+bindsym Ctrl+F2 exec omarchy-cmd-apple-display-brightness +5000
+bindsym Shift+Ctrl+F2 exec omarchy-cmd-apple-display-brightness +60000
+
+# Resize mode
+mode "resize" {
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+    
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Window styling
+for_window [class=".*"] border pixel 2
+gaps inner 8
+gaps outer 4
+
+# Floating windows
+for_window [class="1Password"] floating enable
+for_window [class="Gpick"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+# Autostart applications
+exec --no-startup-id picom
+exec --no-startup-id polybar omarchy-top
+exec --no-startup-id dunst
+exec --no-startup-id feh --bg-scale ~/.config/omarchy/current/theme/backgrounds/1-*
+exec --no-startup-id xss-lock -- omarchy-lock-screen
+exec --no-startup-id redshift -l 0:0
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Include theme-specific configurations
+include ~/.config/omarchy/current/theme/i3.conf
+
+# Ensure symlinks are set up for configs
+exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/i3/config ~/.config/i3/config
+exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/polybar/config.ini ~/.config/polybar/config.ini  
+exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/picom.conf ~/.config/picom/picom.conf
+exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/dunst/dunstrc ~/.config/dunst/dunstrc
+exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/rofi/config.rasi ~/.config/rofi/config.rasi

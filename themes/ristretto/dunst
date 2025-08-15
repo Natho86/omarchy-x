@@ -1,0 +1,23 @@
+# Ristretto theme configuration for dunst
+
+[urgency_low]
+    background = "#2c2525"
+    foreground = "#e6d9db"
+    frame_color = "#675a5d"
+    timeout = 5
+
+[urgency_normal]
+    background = "#2c2525"
+    foreground = "#e6d9db"
+    frame_color = "#e6d9db"
+    timeout = 5
+
+[urgency_critical]
+    background = "#2c2525"
+    foreground = "#d08770"
+    frame_color = "#d08770"
+    timeout = 0
+
+# Custom notification styling
+[global]
+    frame_color = "#e6d9db"

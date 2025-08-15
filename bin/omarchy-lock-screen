@@ -1,7 +1,36 @@
 #!/bin/bash
 
-# Lock the screen
-pidof hyprlock || hyprlock &
+# Lock the screen with i3lock-color
+if ! pgrep -x "i3lock" >/dev/null; then
+  # Use theme colors if available
+  if [[ -f ~/.config/omarchy/current/theme/dunst ]]; then
+    # Extract background color from theme
+    BG_COLOR=$(grep -o 'background.*=.*"#[^"]*"' ~/.config/omarchy/current/theme/dunst | head -1 | grep -o '#[^"]*' || echo "#1a1b26")
+    RING_COLOR=$(grep -o 'frame_color.*=.*"#[^"]*"' ~/.config/omarchy/current/theme/dunst | head -1 | grep -o '#[^"]*' || echo "#33ccff")
+  else
+    BG_COLOR="#1a1b26"
+    RING_COLOR="#33ccff"
+  fi
+  
+  i3lock-color \
+    --blur=5 \
+    --clock \
+    --indicator \
+    --timestr="%H:%M:%S" \
+    --datestr="%A, %m %Y" \
+    --color="$BG_COLOR" \
+    --ring-color="$RING_COLOR" \
+    --ring-ver-color="$RING_COLOR" \
+    --ring-wrong-color="#ff6b6b" \
+    --key-hl-color="$RING_COLOR" \
+    --line-color="$BG_COLOR" \
+    --inside-color="$BG_COLOR" \
+    --inside-ver-color="$BG_COLOR" \
+    --inside-wrong-color="$BG_COLOR" \
+    --text-color="#ffffff" \
+    --time-color="#ffffff" \
+    --date-color="#ffffff" &
+fi
 
 # Ensure 1password is locked
 if pgrep -x "1password" >/dev/null; then

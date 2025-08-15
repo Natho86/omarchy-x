@@ -1,0 +1,99 @@
+/* Tokyo Night theme for rofi */
+
+* {
+    background-color: #1a1b26;
+    text-color: #a9b1d6;
+    border-color: #33ccff;
+    selected-normal-background: #33ccff;
+    selected-normal-foreground: #1a1b26;
+    selected-active-background: #00ff99;
+    selected-active-foreground: #1a1b26;
+    selected-urgent-background: #ff6b6b;
+    selected-urgent-foreground: #1a1b26;
+    alternate-normal-background: #1a1b26;
+    alternate-normal-foreground: #a9b1d6;
+    alternate-active-background: #1a1b26;
+    alternate-active-foreground: #00ff99;
+    alternate-urgent-background: #1a1b26;
+    alternate-urgent-foreground: #ff6b6b;
+    normal-background: #1a1b26;
+    normal-foreground: #a9b1d6;
+    active-background: #1a1b26;
+    active-foreground: #00ff99;
+    urgent-background: #1a1b26;
+    urgent-foreground: #ff6b6b;
+}
+
+window {
+    background-color: @background-color;
+    border: 2px;
+    border-color: @border-color;
+    border-radius: 8px;
+    padding: 10px;
+    width: 600px;
+    location: center;
+    anchor: center;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ inputbar, listview ];
+    spacing: 10px;
+}
+
+inputbar {
+    background-color: @background-color;
+    text-color: @text-color;
+    border: 1px;
+    border-color: @border-color;
+    border-radius: 4px;
+    padding: 8px;
+    children: [ prompt, textbox-prompt-colon, entry ];
+}
+
+prompt {
+    text-color: @selected-normal-background;
+    background-color: transparent;
+}
+
+textbox-prompt-colon {
+    text-color: @text-color;
+    background-color: transparent;
+    expand: false;
+    str: ":";
+}
+
+entry {
+    text-color: @text-color;
+    background-color: transparent;
+    cursor: text;
+}
+
+listview {
+    background-color: transparent;
+    lines: 8;
+    scrollbar: false;
+    spacing: 2px;
+}
+
+element {
+    background-color: transparent;
+    text-color: @normal-foreground;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+element selected {
+    background-color: @selected-normal-background;
+    text-color: @selected-normal-foreground;
+}
+
+element-icon {
+    size: 1.2em;
+    margin: 0 8px 0 0;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+}

@@ -1,0 +1,23 @@
+# Everforest theme configuration for dunst
+
+[urgency_low]
+    background = "#2d353b"
+    foreground = "#d3c6aa"
+    frame_color = "#505a60"
+    timeout = 5
+
+[urgency_normal]
+    background = "#2d353b"
+    foreground = "#d3c6aa"
+    frame_color = "#d3c6aa"
+    timeout = 5
+
+[urgency_critical]
+    background = "#2d353b"
+    foreground = "#e67e80"
+    frame_color = "#e67e80"
+    timeout = 0
+
+# Custom notification styling
+[global]
+    frame_color = "#d3c6aa"

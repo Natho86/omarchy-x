@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Create picom config directory if it doesn't exist
+mkdir -p ~/.config/picom
+
+# Update symlink to current configuration
+ln -sf ~/.local/share/omarchy/default/picom.conf ~/.config/picom/picom.conf
+
+# Restart picom
+pkill picom
+sleep 0.5
+picom &
+
+notify-send "Picom configuration refreshed" -t 2000

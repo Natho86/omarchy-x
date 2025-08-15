@@ -44,10 +44,11 @@ touch "$HOME/.config/alacritty/alacritty.toml"
 
 # Restart components to apply new theme
 pkill -SIGUSR2 btop
-omarchy-restart-waybar
-omarchy-restart-swayosd
-makoctl reload
-hyprctl reload
+omarchy-restart-polybar
+omarchy-restart-dunst
+i3-msg reload
 
-# Set new background
-omarchy-theme-bg-next
+# Set new background with feh
+if [ -d ~/.config/omarchy/current/theme/backgrounds ]; then
+  feh --bg-scale ~/.config/omarchy/current/theme/backgrounds/1-* 2>/dev/null || true
+fi
