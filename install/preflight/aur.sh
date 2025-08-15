@@ -60,7 +60,7 @@ if ! command -v yay &>/dev/null; then
   )
   
   # Clean up
-  rm -rf /tmp/yay-bin
+  rm -rf /tmp/yay
   
   if command -v yay &>/dev/null; then
     echo "Successfully installed yay from AUR!"
