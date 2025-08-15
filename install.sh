@@ -3,13 +3,15 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-export PATH="$HOME/.local/share/omarchy/bin:$PATH"
-OMARCHY_INSTALL=~/.local/share/omarchy/install
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$SCRIPT_DIR/bin:$PATH"
+OMARCHY_INSTALL="$SCRIPT_DIR/install"
 
 # Give people a chance to retry running the installation
 catch_errors() {
-  echo -e "\n\e[31mOmarchy installation failed!\e[0m"
-  echo "You can retry by running: bash ~/.local/share/omarchy/install.sh"
+  echo -e "\n\e[31mOmarchy-X installation failed!\e[0m"
+  echo "You can retry by running: ./install.sh"
   echo "Get help from the community: https://discord.gg/tXFUdasqhY"
 }
 
@@ -17,7 +19,7 @@ trap catch_errors ERR
 
 show_logo() {
   clear
-  tte -i ~/.local/share/omarchy/logo.txt --frame-rate ${2:-120} ${1:-expand}
+  tte -i "$SCRIPT_DIR/logo.txt" --frame-rate ${2:-120} ${1:-expand}
   echo
 }
 

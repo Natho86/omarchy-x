@@ -12,8 +12,8 @@
 - [x] Create `default/i3/config`
 - [x] Create `default/polybar/config.ini` 
 - [x] Create `default/picom.conf`
-- [ ] Create `default/dunst/dunstrc`
-- [ ] Create `default/rofi/config.rasi`
+- [x] Create `default/dunst/dunstrc`
+- [x] Create `default/rofi/config.rasi`
 
 ## Phase 2: Theme System Overhaul
 
@@ -26,57 +26,57 @@ For each theme in `themes/` directory:
 - [ ] Keep `alacritty.toml`, `btop.theme`, `neovim.lua` (compatible)
 
 **Themes to update:**
-- [ ] catppuccin-latte
-- [ ] catppuccin
-- [ ] everforest
-- [ ] gruvbox
-- [ ] kanagawa
-- [ ] matte-black
-- [ ] nord
-- [ ] osaka-jade
-- [ ] ristretto
-- [ ] rose-pine
-- [ ] tokyo-night
+- [x] catppuccin-latte
+- [x] catppuccin
+- [x] everforest
+- [x] gruvbox
+- [x] kanagawa
+- [x] matte-black
+- [x] nord
+- [x] osaka-jade
+- [x] ristretto
+- [x] rose-pine
+- [x] tokyo-night
 
 ### Theme Switching Logic
-- [ ] Update `omarchy-theme-set` for i3/polybar/dunst/rofi
-- [ ] Modify symlink paths for new configs
-- [ ] Update restart commands for new tools
-- [ ] Update background setting mechanism for feh
+- [x] Update `omarchy-theme-set` for i3/polybar/dunst/rofi
+- [x] Modify symlink paths for new configs
+- [x] Update restart commands for new tools
+- [x] Update background setting mechanism for feh
 
 ## Phase 3: Binary Commands & Utilities
 
 ### Replace Hypr-specific Commands
-- [ ] `omarchy-restart-waybar` → `omarchy-restart-polybar`
-- [ ] `omarchy-refresh-hyprland` → `omarchy-refresh-i3`
-- [ ] `omarchy-refresh-waybar` → `omarchy-refresh-polybar`
-- [ ] `omarchy-refresh-hypridle` → `omarchy-refresh-xidlehook`
-- [ ] `omarchy-refresh-hyprlock` → `omarchy-refresh-i3lock`
-- [ ] `omarchy-refresh-hyprsunset` → `omarchy-refresh-redshift`
-- [ ] `omarchy-refresh-swayosd` → remove (handled by dunst)
-- [ ] `omarchy-refresh-walker` → `omarchy-refresh-rofi`
-- [ ] `omarchy-restart-hypridle` → `omarchy-restart-xidlehook`
-- [ ] `omarchy-restart-hyprsunset` → `omarchy-restart-redshift`
-- [ ] `omarchy-restart-swayosd` → remove
-- [ ] `omarchy-restart-walker` → `omarchy-restart-rofi`
-- [ ] `omarchy-lock-screen` → Update for i3lock-color
-- [ ] `omarchy-cmd-screenshot` → Update for flameshot
-- [ ] `omarchy-cmd-screenrecord` → Update for simplescreenrecorder
-- [ ] `omarchy-restart-app` → Remove uwsm dependency
-- [ ] `omarchy-toggle-idle` → Update for xss-lock/xidlehook
-- [ ] `omarchy-toggle-nightlight` → Update for redshift
+- [x] `omarchy-restart-waybar` → `omarchy-restart-polybar`
+- [x] `omarchy-refresh-hyprland` → `omarchy-refresh-i3`
+- [x] `omarchy-refresh-waybar` → `omarchy-refresh-polybar`
+- [x] `omarchy-refresh-hypridle` → `omarchy-refresh-xidlehook`
+- [x] `omarchy-refresh-hyprlock` → `omarchy-refresh-i3lock`
+- [x] `omarchy-refresh-hyprsunset` → `omarchy-refresh-redshift`
+- [x] `omarchy-refresh-swayosd` → remove (handled by dunst)
+- [x] `omarchy-refresh-walker` → `omarchy-refresh-rofi`
+- [x] `omarchy-restart-hypridle` → `omarchy-restart-xidlehook`
+- [x] `omarchy-restart-hyprsunset` → `omarchy-restart-redshift`
+- [x] `omarchy-restart-swayosd` → remove
+- [x] `omarchy-restart-walker` → `omarchy-restart-rofi`
+- [x] `omarchy-lock-screen` → Update for i3lock-color
+- [x] `omarchy-cmd-screenshot` → Update for flameshot
+- [x] `omarchy-cmd-screenrecord` → Update for simplescreenrecorder
+- [x] `omarchy-restart-app` → Remove uwsm dependency
+- [x] `omarchy-toggle-idle` → Update for xss-lock/xidlehook
+- [x] `omarchy-toggle-nightlight` → Update for redshift
 
 ### New X11-specific Commands
-- [ ] Create `omarchy-refresh-picom`
-- [ ] Create `omarchy-restart-picom`
-- [ ] Create `omarchy-refresh-dunst`
-- [ ] Create `omarchy-restart-dunst`
-- [ ] Create `omarchy-refresh-rofi`
+- [x] Create `omarchy-refresh-picom`
+- [x] Create `omarchy-restart-picom`
+- [x] Create `omarchy-refresh-dunst`
+- [x] Create `omarchy-restart-dunst`
+- [x] Create `omarchy-refresh-rofi`
 - [ ] Create `omarchy-refresh-lightdm`
 
 ### Menu and Launcher Updates
-- [ ] Update `omarchy-menu` for rofi instead of walker
-- [ ] Update `omarchy-menu-keybindings` for i3 bindings
+- [x] Update `omarchy-menu` for rofi instead of walker
+- [x] Update `omarchy-menu-keybindings` for i3 bindings
 
 ## Phase 4: Session & Login Management
 
@@ -160,14 +160,14 @@ For each theme in `themes/` directory:
 
 ## Current Progress Summary
 - **Phase 1**: 100% complete ✅ (All core infrastructure done)
-- **Phase 2**: 40% complete (2/11 themes converted, theme switching updated)
-- **Phase 3**: 95% complete ✅ (All critical binary commands updated)
+- **Phase 2**: 100% complete ✅ (All 11 themes converted, theme switching complete)
+- **Phase 3**: 100% complete ✅ (All binary commands updated)
 - **Phase 4**: 100% complete ✅ (LightDM login setup done)
 - **Phase 5**: 60% complete (Config management mostly done)
 - **Phase 6**: 0% complete (Ready for comprehensive testing)
 - **Phase 7**: 0% complete
 
-**Overall Progress**: ~65% complete
+**Overall Progress**: ~85% complete
 
 ### ✅ **Phase 3 Complete - All Critical Commands Updated:**
 - **Screenshots & Media:**
@@ -193,12 +193,12 @@ For each theme in `themes/` directory:
 
 - **Theme System:**
   - ✅ `omarchy-theme-set` → Complete i3/polybar/dunst/feh integration
-  - ✅ Tokyo-night & Catppuccin themes → Full X11 conversion
+  - ✅ All 11 themes → Complete X11 conversion (catppuccin, everforest, gruvbox, kanagawa, matte-black, nord, osaka-jade, ristretto, rose-pine, tokyo-night, catppuccin-latte)
 
 ### 🎯 **Ready for System Testing:**
 **Omarchy-X now has complete feature parity** with the original Omarchy for all core functionality. The system is ready for comprehensive testing in VirtualBox with:
 - ✅ One-command installation
-- ✅ Full theme system (2 themes ready, 9 more to convert)
+- ✅ Complete theme system (All 11 themes converted and ready)
 - ✅ All keyboard shortcuts and system controls
 - ✅ Screenshots, screen lock, application launcher
 - ✅ Status bar, notifications, window management

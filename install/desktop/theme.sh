@@ -21,7 +21,7 @@ gsettings set org.gnome.desktop.interface icon-theme "Yaru-blue"
 
 # Setup theme links
 mkdir -p ~/.config/omarchy/themes
-for f in ~/.local/share/omarchy/themes/*; do ln -nfs "$f" ~/.config/omarchy/themes/; done
+for f in "$SCRIPT_DIR/themes"/*; do ln -nfs "$f" ~/.config/omarchy/themes/; done
 
 # Set initial theme
 mkdir -p ~/.config/omarchy/current

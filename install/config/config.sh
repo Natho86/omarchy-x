@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Copy over Omarchy configs
-cp -R ~/.local/share/omarchy/config/* ~/.config/
+cp -R "$SCRIPT_DIR/config"/* ~/.config/
 
 # Use default bashrc from Omarchy
-cp ~/.local/share/omarchy/default/bashrc ~/.bashrc
+cp "$SCRIPT_DIR/default/bashrc" ~/.bashrc
 
 # Ensure application directory exists for update-desktop-database
 mkdir -p ~/.local/share/applications
@@ -17,7 +17,7 @@ fi
 
 # Setup GPG configuration with multiple keyservers for better reliability
 sudo mkdir -p /etc/gnupg
-sudo cp ~/.local/share/omarchy/default/gpg/dirmngr.conf /etc/gnupg/
+sudo cp "$SCRIPT_DIR/default/gpg/dirmngr.conf" /etc/gnupg/
 sudo chmod 644 /etc/gnupg/dirmngr.conf
 sudo gpgconf --kill dirmngr || true
 sudo gpgconf --launch dirmngr || true
@@ -27,7 +27,7 @@ sudo sed -i 's|^\(auth\s\+required\s\+pam_faillock.so\)\s\+preauth.*$|\1 preauth
 sudo sed -i 's|^\(auth\s\+\[default=die\]\s\+pam_faillock.so\)\s\+authfail.*$|\1 authfail deny=10 unlock_time=120|' "/etc/pam.d/system-auth"
 
 # Set Cloudflare as primary DNS (with Google as backup)
-sudo cp ~/.local/share/omarchy/default/systemd/resolved.conf /etc/systemd/
+sudo cp "$SCRIPT_DIR/default/systemd/resolved.conf" /etc/systemd/
 
 # Solve common flakiness with SSH
 echo "net.ipv4.tcp_mtu_probing=1" | sudo tee -a /etc/sysctl.d/99-sysctl.conf

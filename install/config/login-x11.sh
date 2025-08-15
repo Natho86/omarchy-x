@@ -123,7 +123,7 @@ else
 fi
 
 if [ "$(plymouth-set-default-theme)" != "omarchy" ]; then
-  sudo cp -r "$HOME/.local/share/omarchy/default/plymouth" /usr/share/plymouth/themes/omarchy/
+  sudo cp -r "$SCRIPT_DIR/default/plymouth" /usr/share/plymouth/themes/omarchy/
   sudo plymouth-set-default-theme -R omarchy
 fi
 
@@ -167,7 +167,7 @@ export XDG_SESSION_TYPE=x11
 export XDG_CURRENT_DESKTOP=i3
 
 # Start i3 with proper configuration
-exec i3 -c ~/.local/share/omarchy/default/i3/config
+exec i3 -c ~/.config/omarchy/current/theme/i3.conf
 EOF
   sudo chmod +x /usr/local/bin/omarchy-i3-session
 fi
