@@ -53,9 +53,9 @@ if ! command -v yay &>/dev/null; then
   # Build and install yay-bin in tmp directory
   (
     cd /tmp
-    rm -rf yay-bin
-    git clone https://aur.archlinux.org/yay-bin.git
-    cd yay-bin
+    rm -rf yay
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
     makepkg -si --noconfirm
   )
   
