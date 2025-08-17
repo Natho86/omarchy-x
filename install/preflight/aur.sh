@@ -63,7 +63,10 @@ check_network() {
 
 # Manually install yay from AUR if not already available
 if ! command -v yay &>/dev/null; then
-  echo "Installing yay manually from AUR..."
+  echo "Installing yay from source..."
+  
+  # Start timer
+  yay_start_time=$(date +%s)
   
   # Check network connectivity first
   if ! check_network; then
@@ -91,13 +94,17 @@ if ! command -v yay &>/dev/null; then
       if timeout 300 git clone https://aur.archlinux.org/yay.git; then
         cd yay
         
-        # Set Go proxy timeout and retry settings
+        # Set Go proxy timeout and retry settings for faster builds
         export GOPROXY="https://proxy.golang.org,direct"
         export GOSUMDB="sum.golang.org"
         export GOTIMEOUT="300s"
+        export CGO_ENABLED=0  # Disable CGO for faster builds
+        
+        # Use all available CPU cores for faster compilation
+        export MAKEFLAGS="-j$(nproc)"
         
         # Build with timeout and better error handling
-        echo "      🔧 Building yay (this may take a few minutes)..."
+        echo "      🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)..."
         if timeout 600 makepkg -si --noconfirm; then
           echo "      ✅ Successfully built yay on attempt $attempt"
           exit 0
@@ -132,7 +139,14 @@ if ! command -v yay &>/dev/null; then
   # Clean up
   rm -rf /tmp/yay
   
+  # Calculate and display build time
+  yay_end_time=$(date +%s)
+  yay_duration=$((yay_end_time - yay_start_time))
+  yay_minutes=$((yay_duration / 60))
+  yay_seconds=$((yay_duration % 60))
+  
   if command -v yay &>/dev/null; then
+    echo "   ⏱️  yay installation completed in ${yay_minutes}m ${yay_seconds}s"
     echo "Successfully installed yay from AUR!"
   else
     echo "Failed to install yay after $max_attempts attempts - manual intervention required"
