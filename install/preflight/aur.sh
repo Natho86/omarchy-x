@@ -20,7 +20,7 @@ check_network() {
     return 1
   fi
   
-  if ! nslookup proxy.golang.org >/dev/null 2>&1; then
+  if ! nslookup google.com >/dev/null 2>&1; then
     echo "WARNING: DNS issues detected. Trying to use alternative DNS..."
     # Temporarily use Google DNS for this session
     echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf.backup >/dev/null
@@ -36,7 +36,11 @@ if ! command -v yay &>/dev/null; then
   # Start timer
   yay_start_time=$(date +%s)
   
-  # Check network connectivity first
+  # Install DNS utilities first (needed for network check)
+  echo -e "   ${BLUE}📦 Installing DNS utilities...${NC}"
+  sudo pacman -Sy --needed --noconfirm bind
+  
+  # Check network connectivity 
   if ! check_network; then
     echo "Failed to establish network connectivity - manual intervention required"
     exit 1
@@ -44,7 +48,7 @@ if ! command -v yay &>/dev/null; then
   
   # Install build tools
   echo -e "   ${BLUE}📦 Installing build dependencies (base-devel, git)...${NC}"
-  sudo pacman -Sy --needed --noconfirm base-devel git
+  sudo pacman -S --needed --noconfirm base-devel git
   
   # Build and install yay with retry logic
   max_attempts=3
