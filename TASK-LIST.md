@@ -5,8 +5,8 @@
 ### Install Scripts
 - [x] Create `install/desktop/i3-desktop.sh` replacing `hyprlandia.sh`
 - [x] Update `install/desktop/desktop.sh` for X11 tools
-- [ ] Modify `install/config/login.sh` for LightDM setup
-- [ ] Update `install.sh` to use `i3-desktop.sh` instead of `hyprlandia.sh`
+- [x] Modify `install/config/login.sh` for LightDM setup
+- [x] Update `install.sh` to use `i3-desktop.sh` instead of `hyprlandia.sh`
 
 ### Default Configuration Templates
 - [x] Create `default/i3/config`

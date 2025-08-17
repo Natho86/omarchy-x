@@ -44,7 +44,6 @@ source $OMARCHY_INSTALL/config/fix-fkeys.sh
 source $OMARCHY_INSTALL/config/network.sh
 source $OMARCHY_INSTALL/config/power.sh
 source $OMARCHY_INSTALL/config/timezones.sh
-source $OMARCHY_INSTALL/config/login-x11.sh
 source $OMARCHY_INSTALL/config/nvidia.sh
 
 # Development
@@ -67,6 +66,7 @@ source $OMARCHY_INSTALL/desktop/bluetooth.sh
 source $OMARCHY_INSTALL/desktop/asdcontrol.sh
 source $OMARCHY_INSTALL/desktop/fonts.sh
 source $OMARCHY_INSTALL/desktop/printer.sh
+source $OMARCHY_INSTALL/config/login-x11.sh
 
 # Apps
 show_logo expand
