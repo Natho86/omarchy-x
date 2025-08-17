@@ -47,8 +47,8 @@ if ! command -v yay &>/dev/null; then
   fi
   
   # Install build tools
-  echo -e "   ${BLUE}📦 Installing build dependencies (base-devel, git)...${NC}"
-  sudo pacman -S --needed --noconfirm base-devel git
+  echo -e "   ${BLUE}📦 Installing build dependencies (base-devel, git, go)...${NC}"
+  sudo pacman -S --needed --noconfirm base-devel git go
   
   # Build and install yay with retry logic
   max_attempts=3
