@@ -20,7 +20,8 @@ check_network() {
     return 1
   fi
   
-  if ! nslookup google.com >/dev/null 2>&1; then
+  # Test both general DNS and Go-specific domains that yay build needs
+  if ! nslookup google.com >/dev/null 2>&1 || ! nslookup golang.org >/dev/null 2>&1; then
     echo -e "${YELLOW}WARNING: DNS resolution issues detected. Fixing systemd-resolved...${NC}"
     
     # Try to fix systemd-resolved properly first
@@ -44,8 +45,8 @@ EOF
     sudo systemctl restart systemd-resolved 2>/dev/null || true
     sleep 3
     
-    # Test again
-    if ! nslookup google.com >/dev/null 2>&1; then
+    # Test again - both general and Go-specific domains
+    if ! nslookup google.com >/dev/null 2>&1 || ! nslookup golang.org >/dev/null 2>&1; then
       echo -e "${YELLOW}systemd-resolved fix failed. Using direct DNS fallback...${NC}"
       # Fallback: direct DNS (more aggressive fix)
       sudo rm -f /etc/resolv.conf
@@ -87,6 +88,25 @@ if ! command -v yay &>/dev/null; then
   echo -e "   ${BLUE}📦 Installing build dependencies (base-devel, git, go)...${NC}"
   sudo pacman -S --needed --noconfirm base-devel git go
   
+  # Final DNS verification before build
+  echo -e "   ${BLUE}🔍 Verifying DNS resolution for Go build...${NC}"
+  if ! nslookup golang.org >/dev/null 2>&1; then
+    echo -e "   ${RED}❌ Cannot resolve golang.org - attempting emergency DNS fix...${NC}"
+    sudo rm -f /etc/resolv.conf
+    echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
+    echo "nameserver 1.1.1.1" | sudo tee -a /etc/resolv.conf >/dev/null
+    sleep 2
+    
+    if ! nslookup golang.org >/dev/null 2>&1; then
+      echo -e "   ${RED}❌ Emergency DNS fix failed - yay build will likely fail${NC}"
+      echo "You may need to fix DNS manually and retry installation"
+    else
+      echo -e "   ${GREEN}✅ Emergency DNS fix successful${NC}"
+    fi
+  else
+    echo -e "   ${GREEN}✅ DNS resolution working - proceeding with build${NC}"
+  fi
+
   # Build and install yay with retry logic
   max_attempts=3
   attempt=1
