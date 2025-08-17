@@ -21,10 +21,47 @@ check_network() {
   fi
   
   if ! nslookup google.com >/dev/null 2>&1; then
-    echo "WARNING: DNS issues detected. Trying to use alternative DNS..."
-    # Temporarily use Google DNS for this session
-    echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf.backup >/dev/null
-    sudo cp /etc/resolv.conf.backup /etc/resolv.conf
+    echo -e "${YELLOW}WARNING: DNS resolution issues detected. Fixing systemd-resolved...${NC}"
+    
+    # Try to fix systemd-resolved properly first
+    sudo systemctl start systemd-resolved 2>/dev/null || true
+    sudo systemctl enable systemd-resolved 2>/dev/null || true
+    
+    # Configure systemd-resolved with fallback DNS
+    if [ ! -f /etc/systemd/resolved.conf.d/omarchy.conf ]; then
+      sudo mkdir -p /etc/systemd/resolved.conf.d
+      cat <<EOF | sudo tee /etc/systemd/resolved.conf.d/omarchy.conf >/dev/null
+[Resolve]
+DNS=8.8.8.8 1.1.1.1
+FallbackDNS=8.8.8.8 1.1.1.1
+EOF
+    fi
+    
+    # Ensure proper resolv.conf symlink
+    sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf 2>/dev/null || true
+    
+    # Restart with new config
+    sudo systemctl restart systemd-resolved 2>/dev/null || true
+    sleep 3
+    
+    # Test again
+    if ! nslookup google.com >/dev/null 2>&1; then
+      echo -e "${YELLOW}systemd-resolved fix failed. Using direct DNS fallback...${NC}"
+      # Fallback: direct DNS (more aggressive fix)
+      sudo rm -f /etc/resolv.conf
+      echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
+      echo "nameserver 1.1.1.1" | sudo tee -a /etc/resolv.conf >/dev/null
+      
+      # Test critical domains for Go build
+      sleep 1
+      if ! nslookup golang.org >/dev/null 2>&1; then
+        echo -e "${RED}Critical: Cannot resolve golang.org - Go build will fail${NC}"
+        echo "You may need to fix DNS manually before continuing"
+        return 1
+      fi
+    else
+      echo -e "${GREEN}DNS resolution fixed!${NC}"
+    fi
   fi
   return 0
 }
@@ -57,48 +94,50 @@ if ! command -v yay &>/dev/null; then
   while [ $attempt -le $max_attempts ]; do
     echo -e "   ${YELLOW}🔨 Attempt $attempt of $max_attempts to build yay...${NC}"
     
-    (
-      cd /tmp
-      rm -rf yay
-      
-      # Clone with timeout
-      echo -e "      ${CYAN}📥 Downloading yay source code...${NC}"
-      if timeout 300 git clone https://aur.archlinux.org/yay.git; then
-        cd yay
-        
-        # Set Go proxy timeout and retry settings for faster builds
-        export GOPROXY="https://proxy.golang.org,direct"
-        export GOSUMDB="sum.golang.org"
-        export GOTIMEOUT="300s"
-        export CGO_ENABLED=0  # Disable CGO for faster builds
-        
-        # Use all available CPU cores for faster compilation
-        export MAKEFLAGS="-j$(nproc)"
-        
-        # Build with timeout and better error handling
-        echo -e "      ${BLUE}🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)...${NC}"
-        if timeout 600 makepkg -si --noconfirm; then
-          echo -e "      ${GREEN}✅ Successfully built yay on attempt $attempt${NC}"
-          exit 0
-        else
-          echo -e "      ${RED}❌ Build failed on attempt $attempt${NC}"
-          exit 1
-        fi
-      else
-        echo -e "      ${RED}❌ Git clone failed on attempt $attempt${NC}"
-        exit 1
-      fi
-    )
+    # Change to temp directory for build
+    cd /tmp
+    rm -rf yay
     
-    if [ $? -eq 0 ]; then
+    # Clone with timeout
+    echo -e "      ${CYAN}📥 Downloading yay source code...${NC}"
+    if timeout 300 git clone https://aur.archlinux.org/yay.git; then
+      cd yay
+      
+      # Configure Go to work around DNS/proxy issues
+      export GOPROXY="direct"              # Skip proxy, go direct to source
+      export GOSUMDB="off"                 # Disable checksum verification
+      export GOTIMEOUT="600s"              # Longer timeout for direct downloads
+      export CGO_ENABLED=0                 # Disable CGO for faster builds
+      export GO111MODULE=on                # Ensure module mode
+      
+      # Use all available CPU cores for faster compilation
+      export MAKEFLAGS="-j$(nproc)"
+      
+      # Build with timeout and better error handling
+      echo -e "      ${BLUE}🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)...${NC}"
+      if timeout 900 makepkg -si --noconfirm; then
+        echo -e "      ${GREEN}✅ Successfully built yay on attempt $attempt${NC}"
+        break  # Exit the retry loop on success
+      else
+        echo -e "      ${RED}❌ Build failed on attempt $attempt${NC}"
+        cd /tmp  # Return to temp directory for next attempt
+      fi
+    else
+      echo -e "      ${RED}❌ Git clone failed on attempt $attempt${NC}"
+    fi
+    
+    # Check if yay was successfully installed
+    if command -v yay &>/dev/null; then
+      echo -e "   ${GREEN}✅ yay successfully installed on attempt $attempt${NC}"
       break
     fi
     
     if [ $attempt -eq $max_attempts ]; then
-      echo "All attempts to build yay failed. This may be due to:"
+      echo -e "${RED}All attempts to build yay failed. This may be due to:${NC}"
       echo "1. Network connectivity issues"
-      echo "2. DNS resolution problems"
+      echo "2. DNS resolution problems" 
       echo "3. Go proxy timeouts"
+      echo "4. Insufficient disk space"
       echo "Please check your internet connection and try again later."
       break
     fi
