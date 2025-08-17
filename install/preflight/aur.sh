@@ -111,8 +111,14 @@ if ! command -v yay &>/dev/null; then
   max_attempts=3
   attempt=1
   
+  # Refresh sudo timestamp to prevent timeouts during build
+  sudo -v
+  
   while [ $attempt -le $max_attempts ]; do
     echo -e "   ${YELLOW}🔨 Attempt $attempt of $max_attempts to build yay...${NC}"
+    
+    # Refresh sudo session before each attempt
+    sudo -v
     
     # Change to temp directory for build
     cd /tmp
@@ -135,6 +141,9 @@ if ! command -v yay &>/dev/null; then
       
       # Build with timeout and better error handling
       echo -e "      ${BLUE}🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)...${NC}"
+      
+      # Refresh sudo again right before makepkg to ensure valid session
+      sudo -v
       
       if timeout 900 makepkg -si --noconfirm; then
         echo -e "      ${GREEN}✅ Successfully built yay on attempt $attempt${NC}"

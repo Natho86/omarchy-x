@@ -44,12 +44,31 @@ show_subtext() {
   echo
 }
 
-# Configure extended sudo timeout for entire installation
-echo -e "${CYAN}🔐 Configuring extended sudo timeout for installation...${NC}"
+# Configure sudo session management for installation
+echo -e "${CYAN}🔐 Initializing sudo session for installation...${NC}"
 sudo -v  # Initial sudo authentication
-# Extend timeout to 60 minutes for entire installation process
-echo "Defaults:$USER timestamp_timeout=60" | sudo tee /etc/sudoers.d/omarchy-install-timeout >/dev/null
-echo -e "${GREEN}✅ Sudo timeout extended to 60 minutes${NC}"
+
+# Function to refresh sudo timestamp periodically
+refresh_sudo() {
+  while true; do
+    sleep 240  # Refresh every 4 minutes (default timeout is 5 minutes)
+    sudo -n true 2>/dev/null || break  # Exit if sudo fails (user logged out, etc.)
+  done
+}
+
+# Start background sudo refresh process
+refresh_sudo &
+SUDO_REFRESH_PID=$!
+echo -e "${GREEN}✅ Sudo session management started (PID: $SUDO_REFRESH_PID)${NC}"
+
+# Trap to clean up background process on exit
+cleanup_sudo() {
+  if [ -n "$SUDO_REFRESH_PID" ]; then
+    kill $SUDO_REFRESH_PID 2>/dev/null || true
+    echo -e "${CYAN}🔐 Sudo session management stopped${NC}"
+  fi
+}
+trap cleanup_sudo EXIT
 
 # Install prerequisites
 progress "🔧 [PREFLIGHT] Checking system requirements..."
@@ -135,10 +154,7 @@ sudo updatedb
 progress "⬆️  [FINAL] Updating all packages..."
 yay -Syu --noconfirm --ignore uwsm
 
-# Clean up extended sudo timeout
-echo -e "${CYAN}🔐 Cleaning up sudo timeout configuration...${NC}"
-sudo rm -f /etc/sudoers.d/omarchy-install-timeout
-echo -e "${GREEN}✅ Sudo timeout restored to system default${NC}"
+# Sudo cleanup will be handled by the trap function
 
 # Reboot
 show_logo laseretch 920
