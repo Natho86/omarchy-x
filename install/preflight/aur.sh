@@ -142,12 +142,21 @@ if ! command -v yay &>/dev/null; then
       # Build with timeout and better error handling
       echo -e "      ${BLUE}🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)...${NC}"
       
-      # Refresh sudo again right before makepkg to ensure valid session
-      sudo -v
-      
-      if timeout 900 makepkg -si --noconfirm; then
-        echo -e "      ${GREEN}✅ Successfully built yay on attempt $attempt${NC}"
-        break  # Exit the retry loop on success
+      # Build package without installing (to avoid sudo prompt during build)
+      if timeout 900 makepkg -s --noconfirm; then
+        echo -e "      ${CYAN}📦 Package built successfully, installing with pacman...${NC}"
+        
+        # Refresh sudo session right before installation
+        sudo -v
+        
+        # Install the built package manually with proper sudo session
+        if sudo pacman -U --noconfirm yay-*.pkg.tar.*; then
+          echo -e "      ${GREEN}✅ Successfully built and installed yay on attempt $attempt${NC}"
+          break  # Exit the retry loop on success
+        else
+          echo -e "      ${RED}❌ Package installation failed on attempt $attempt${NC}"
+          cd /tmp  # Return to temp directory for next attempt
+        fi
       else
         echo -e "      ${RED}❌ Build failed on attempt $attempt${NC}"
         cd /tmp  # Return to temp directory for next attempt
