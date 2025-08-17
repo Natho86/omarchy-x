@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Color definitions
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
+# Color definitions (using bright colors for better visibility)
+GREEN='\033[1;32m'        # Bright Green
+BLUE='\033[1;94m'         # Bright Light Blue
+CYAN='\033[1;96m'         # Bright Light Cyan
 NC='\033[0m'
 
 echo -e "${CYAN}   Installing programming languages...${NC}"

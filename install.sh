@@ -8,20 +8,20 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export PATH="$SCRIPT_DIR/bin:$PATH"
 OMARCHY_INSTALL="$SCRIPT_DIR/install"
 
-# Color definitions for console output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-MAGENTA='\033[0;35m'
-CYAN='\033[0;36m'
-WHITE='\033[0;37m'
+# Color definitions for console output (using bright colors for better visibility)
+RED='\033[1;31m'          # Bright Red
+GREEN='\033[1;32m'        # Bright Green
+YELLOW='\033[1;33m'       # Bright Yellow
+BLUE='\033[1;94m'         # Bright Light Blue
+MAGENTA='\033[1;95m'      # Bright Light Magenta
+CYAN='\033[1;96m'         # Bright Light Cyan
+WHITE='\033[1;97m'        # Bright White
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 # Colored progress function
 progress() {
-  echo -e "${CYAN}${BOLD}$1${NC}"
+  echo -e "${CYAN}$1${NC}"
 }
 
 # Give people a chance to retry running the installation

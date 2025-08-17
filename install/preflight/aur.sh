@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Color definitions for console output
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
+# Color definitions for console output (using bright colors for better visibility)
+GREEN='\033[1;32m'        # Bright Green
+RED='\033[1;31m'          # Bright Red
+YELLOW='\033[1;33m'       # Bright Yellow
+BLUE='\033[1;94m'         # Bright Light Blue
+CYAN='\033[1;96m'         # Bright Light Cyan
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
