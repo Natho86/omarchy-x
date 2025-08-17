@@ -135,6 +135,7 @@ if ! command -v yay &>/dev/null; then
       
       # Build with timeout and better error handling
       echo -e "      ${BLUE}🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)...${NC}"
+      
       if timeout 900 makepkg -si --noconfirm; then
         echo -e "      ${GREEN}✅ Successfully built yay on attempt $attempt${NC}"
         break  # Exit the retry loop on success
