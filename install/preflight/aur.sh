@@ -72,6 +72,7 @@ if ! command -v yay &>/dev/null; then
   fi
   
   # Install build tools
+  echo "   📦 Installing build dependencies (base-devel, git)..."
   sudo pacman -Sy --needed --noconfirm base-devel git
   
   # Build and install yay with retry logic
@@ -79,13 +80,14 @@ if ! command -v yay &>/dev/null; then
   attempt=1
   
   while [ $attempt -le $max_attempts ]; do
-    echo "Attempt $attempt of $max_attempts to build yay..."
+    echo "   🔨 Attempt $attempt of $max_attempts to build yay..."
     
     (
       cd /tmp
       rm -rf yay
       
       # Clone with timeout
+      echo "      📥 Downloading yay source code..."
       if timeout 300 git clone https://aur.archlinux.org/yay.git; then
         cd yay
         
@@ -95,15 +97,16 @@ if ! command -v yay &>/dev/null; then
         export GOTIMEOUT="300s"
         
         # Build with timeout and better error handling
+        echo "      🔧 Building yay (this may take a few minutes)..."
         if timeout 600 makepkg -si --noconfirm; then
-          echo "Successfully built yay on attempt $attempt"
+          echo "      ✅ Successfully built yay on attempt $attempt"
           exit 0
         else
-          echo "Build failed on attempt $attempt"
+          echo "      ❌ Build failed on attempt $attempt"
           exit 1
         fi
       else
-        echo "Git clone failed on attempt $attempt"
+        echo "      ❌ Git clone failed on attempt $attempt"
         exit 1
       fi
     )
