@@ -34,5 +34,15 @@ ln -snf ~/.config/omarchy/current/theme/neovim.lua ~/.config/nvim/lua/plugins/th
 mkdir -p ~/.config/btop/themes
 ln -snf ~/.config/omarchy/current/theme/btop.theme ~/.config/btop/themes/current.theme
 
-mkdir -p ~/.config/mako
-ln -snf ~/.config/omarchy/current/theme/mako.ini ~/.config/mako/config
+# Link X11 configs
+mkdir -p ~/.config/i3
+mkdir -p ~/.config/polybar
+mkdir -p ~/.config/picom
+mkdir -p ~/.config/dunst
+mkdir -p ~/.config/rofi
+
+ln -snf ~/.local/share/omarchy/default/i3/config ~/.config/i3/config
+ln -snf ~/.config/omarchy/current/theme/polybar.ini ~/.config/polybar/config.ini
+ln -snf ~/.config/omarchy/current/theme/picom.conf ~/.config/picom/picom.conf
+ln -snf ~/.config/omarchy/current/theme/dunst ~/.config/dunst/dunstrc
+ln -snf ~/.config/omarchy/current/theme/rofi.rasi ~/.config/rofi/config.rasi

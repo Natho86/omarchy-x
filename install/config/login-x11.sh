@@ -137,23 +137,24 @@ if [ ! -f /etc/lightdm/lightdm.conf.d/90-omarchy.conf ]; then
   cat <<EOF | sudo tee /etc/lightdm/lightdm.conf.d/90-omarchy.conf
 [Seat:*]
 autologin-user=$USER
-autologin-session=i3
+autologin-session=omarchy-i3
 session-wrapper=/etc/lightdm/Xsession
+autologin-user-timeout=0
 EOF
 fi
 
-# Create i3 session file
-if [ ! -f /usr/share/xsessions/i3.desktop ]; then
-  sudo tee /usr/share/xsessions/i3.desktop <<'EOF'
+# Create Omarchy i3 session file
+if [ ! -f /usr/share/xsessions/omarchy-i3.desktop ]; then
+  sudo tee /usr/share/xsessions/omarchy-i3.desktop <<'EOF'
 [Desktop Entry]
-Name=i3
-Comment=Improved tiling window manager
-Exec=i3
-TryExec=i3
+Name=Omarchy i3
+Comment=Omarchy i3 Desktop Environment
+Exec=omarchy-i3-session
+TryExec=omarchy-i3-session
 Type=Application
-X-LightDM-DesktopName=i3
-DesktopNames=i3
-Keywords=tiling;wm;windowmanager;window;manager;
+X-LightDM-DesktopName=omarchy-i3
+DesktopNames=omarchy-i3
+Keywords=tiling;wm;windowmanager;window;manager;omarchy;
 EOF
 fi
 
@@ -166,14 +167,34 @@ if [ ! -f /usr/local/bin/omarchy-i3-session ]; then
 export XDG_SESSION_TYPE=x11
 export XDG_CURRENT_DESKTOP=i3
 
-# Start i3 with proper configuration
-exec i3 -c ~/.config/omarchy/current/theme/i3.conf
+# Ensure omarchy directories exist
+mkdir -p ~/.config/omarchy
+mkdir -p ~/.config/i3
+mkdir -p ~/.config/polybar
+mkdir -p ~/.config/picom
+mkdir -p ~/.config/dunst
+mkdir -p ~/.config/rofi
+
+# If no theme is set, set default theme
+if [ ! -L ~/.config/omarchy/current ]; then
+    omarchy-theme-set catppuccin 2>/dev/null || true
+fi
+
+# Create config symlinks if they don't exist
+[ ! -L ~/.config/i3/config ] && ln -sf ~/.local/share/omarchy/default/i3/config ~/.config/i3/config
+[ ! -L ~/.config/polybar/config.ini ] && ln -sf ~/.local/share/omarchy/default/polybar/config.ini ~/.config/polybar/config.ini
+[ ! -L ~/.config/picom/picom.conf ] && ln -sf ~/.local/share/omarchy/default/picom.conf ~/.config/picom/picom.conf
+[ ! -L ~/.config/dunst/dunstrc ] && ln -sf ~/.local/share/omarchy/default/dunst/dunstrc ~/.config/dunst/dunstrc
+[ ! -L ~/.config/rofi/config.rasi ] && ln -sf ~/.local/share/omarchy/default/rofi/config.rasi ~/.config/rofi/config.rasi
+
+# Start i3 with default config (it will include theme config via include directive)
+exec i3
 EOF
   sudo chmod +x /usr/local/bin/omarchy-i3-session
 fi
 
-# Update i3 session to use our startup script
-sudo sed -i 's/Exec=i3/Exec=omarchy-i3-session/' /usr/share/xsessions/i3.desktop
+# Remove any old regular i3 session file to avoid confusion
+[ -f /usr/share/xsessions/i3.desktop ] && sudo rm -f /usr/share/xsessions/i3.desktop
 
 # Enable and configure LightDM
 sudo systemctl enable lightdm.service

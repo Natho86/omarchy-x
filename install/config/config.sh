@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Setup Omarchy directory structure
+mkdir -p ~/.local/share/omarchy
+cp -R "$SCRIPT_DIR/default" ~/.local/share/omarchy/
+cp -R "$SCRIPT_DIR/config" ~/.local/share/omarchy/
+cp -R "$SCRIPT_DIR/applications" ~/.local/share/omarchy/ 2>/dev/null || true
+
 # Copy over Omarchy configs
 cp -R "$SCRIPT_DIR/config"/* ~/.config/
 

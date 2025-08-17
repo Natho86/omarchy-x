@@ -184,10 +184,3 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # Include theme-specific configurations
 include ~/.config/omarchy/current/theme/i3.conf
-
-# Ensure symlinks are set up for configs
-exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/i3/config ~/.config/i3/config
-exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/polybar/config.ini ~/.config/polybar/config.ini  
-exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/picom.conf ~/.config/picom/picom.conf
-exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/dunst/dunstrc ~/.config/dunst/dunstrc
-exec_always --no-startup-id ln -sf ~/.local/share/omarchy/default/rofi/config.rasi ~/.config/rofi/config.rasi
