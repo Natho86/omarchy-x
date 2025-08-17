@@ -20,8 +20,8 @@ check_network() {
     return 1
   fi
   
-  # Test both general DNS and Go-specific domains that yay build needs
-  if ! nslookup google.com >/dev/null 2>&1 || ! nslookup golang.org >/dev/null 2>&1; then
+  # Test both general DNS and AUR-specific domains 
+  if ! nslookup google.com >/dev/null 2>&1 || ! nslookup aur.archlinux.org >/dev/null 2>&1; then
     echo -e "${YELLOW}WARNING: DNS resolution issues detected. Fixing systemd-resolved...${NC}"
     
     # Try to fix systemd-resolved properly first
@@ -45,18 +45,18 @@ EOF
     sudo systemctl restart systemd-resolved 2>/dev/null || true
     sleep 3
     
-    # Test again - both general and Go-specific domains
-    if ! nslookup google.com >/dev/null 2>&1 || ! nslookup golang.org >/dev/null 2>&1; then
+    # Test again - both general and AUR-specific domains
+    if ! nslookup google.com >/dev/null 2>&1 || ! nslookup aur.archlinux.org >/dev/null 2>&1; then
       echo -e "${YELLOW}systemd-resolved fix failed. Using direct DNS fallback...${NC}"
       # Fallback: direct DNS (more aggressive fix)
       sudo rm -f /etc/resolv.conf
       echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
       echo "nameserver 1.1.1.1" | sudo tee -a /etc/resolv.conf >/dev/null
       
-      # Test critical domains for Go build
+      # Test critical domains for AUR download
       sleep 1
-      if ! nslookup golang.org >/dev/null 2>&1; then
-        echo -e "${RED}Critical: Cannot resolve golang.org - Go build will fail${NC}"
+      if ! nslookup aur.archlinux.org >/dev/null 2>&1; then
+        echo -e "${RED}Critical: Cannot resolve aur.archlinux.org - AUR download will fail${NC}"
         echo "You may need to fix DNS manually before continuing"
         return 1
       fi
@@ -85,26 +85,26 @@ if ! command -v yay &>/dev/null; then
   fi
   
   # Install build tools
-  echo -e "   ${BLUE}📦 Installing build dependencies (base-devel, git, go)...${NC}"
-  sudo pacman -S --needed --noconfirm base-devel git go
+  echo -e "   ${BLUE}📦 Installing build dependencies (base-devel, git)...${NC}"
+  sudo pacman -S --needed --noconfirm base-devel git
   
-  # Final DNS verification before build
-  echo -e "   ${BLUE}🔍 Verifying DNS resolution for Go build...${NC}"
-  if ! nslookup golang.org >/dev/null 2>&1; then
-    echo -e "   ${RED}❌ Cannot resolve golang.org - attempting emergency DNS fix...${NC}"
+  # Final DNS verification before download
+  echo -e "   ${BLUE}🔍 Verifying DNS resolution for AUR download...${NC}"
+  if ! nslookup aur.archlinux.org >/dev/null 2>&1; then
+    echo -e "   ${RED}❌ Cannot resolve aur.archlinux.org - attempting emergency DNS fix...${NC}"
     sudo rm -f /etc/resolv.conf
     echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
     echo "nameserver 1.1.1.1" | sudo tee -a /etc/resolv.conf >/dev/null
     sleep 2
     
-    if ! nslookup golang.org >/dev/null 2>&1; then
-      echo -e "   ${RED}❌ Emergency DNS fix failed - yay build will likely fail${NC}"
+    if ! nslookup aur.archlinux.org >/dev/null 2>&1; then
+      echo -e "   ${RED}❌ Emergency DNS fix failed - AUR download will likely fail${NC}"
       echo "You may need to fix DNS manually and retry installation"
     else
       echo -e "   ${GREEN}✅ Emergency DNS fix successful${NC}"
     fi
   else
-    echo -e "   ${GREEN}✅ DNS resolution working - proceeding with build${NC}"
+    echo -e "   ${GREEN}✅ DNS resolution working - proceeding with download${NC}"
   fi
 
   # Build and install yay with retry logic
@@ -122,43 +122,24 @@ if ! command -v yay &>/dev/null; then
     
     # Change to temp directory for build
     cd /tmp
-    rm -rf yay
+    rm -rf yay-bin
     
-    # Clone with timeout
-    echo -e "      ${CYAN}📥 Downloading yay source code...${NC}"
-    if timeout 300 git clone https://aur.archlinux.org/yay.git; then
-      cd yay
+    # Clone with timeout - using yay-bin for faster installation (like original Omarchy)
+    echo -e "      ${CYAN}📥 Downloading yay-bin (pre-compiled binary)...${NC}"
+    if timeout 300 git clone https://aur.archlinux.org/yay-bin.git; then
+      cd yay-bin
       
-      # Configure Go to work around DNS/proxy issues
-      export GOPROXY="direct"              # Skip proxy, go direct to source
-      export GOSUMDB="off"                 # Disable checksum verification
-      export GOTIMEOUT="600s"              # Longer timeout for direct downloads
-      export CGO_ENABLED=0                 # Disable CGO for faster builds
-      export GO111MODULE=on                # Ensure module mode
+      # Build and install with timeout - much faster since it's pre-compiled
+      echo -e "      ${BLUE}🔧 Installing yay-bin (pre-compiled, no compilation needed)...${NC}"
       
-      # Use all available CPU cores for faster compilation
-      export MAKEFLAGS="-j$(nproc)"
+      # Refresh sudo session right before makepkg
+      sudo -v
       
-      # Build with timeout and better error handling
-      echo -e "      ${BLUE}🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)...${NC}"
-      
-      # Build package without installing (to avoid sudo prompt during build)
-      if timeout 900 makepkg -s --noconfirm; then
-        echo -e "      ${CYAN}📦 Package built successfully, installing with pacman...${NC}"
-        
-        # Refresh sudo session right before installation
-        sudo -v
-        
-        # Install the built package manually with proper sudo session
-        if sudo pacman -U --noconfirm yay-*.pkg.tar.*; then
-          echo -e "      ${GREEN}✅ Successfully built and installed yay on attempt $attempt${NC}"
-          break  # Exit the retry loop on success
-        else
-          echo -e "      ${RED}❌ Package installation failed on attempt $attempt${NC}"
-          cd /tmp  # Return to temp directory for next attempt
-        fi
+      if timeout 300 makepkg -si --noconfirm; then
+        echo -e "      ${GREEN}✅ Successfully installed yay-bin on attempt $attempt${NC}"
+        break  # Exit the retry loop on success
       else
-        echo -e "      ${RED}❌ Build failed on attempt $attempt${NC}"
+        echo -e "      ${RED}❌ Installation failed on attempt $attempt${NC}"
         cd /tmp  # Return to temp directory for next attempt
       fi
     else
@@ -187,7 +168,7 @@ if ! command -v yay &>/dev/null; then
   done
   
   # Clean up
-  rm -rf /tmp/yay
+  rm -rf /tmp/yay-bin
   
   # Calculate and display build time
   yay_end_time=$(date +%s)
@@ -196,8 +177,8 @@ if ! command -v yay &>/dev/null; then
   yay_seconds=$((yay_duration % 60))
   
   if command -v yay &>/dev/null; then
-    echo -e "   ${GREEN}⏱️  yay installation completed in ${yay_minutes}m ${yay_seconds}s${NC}"
-    echo -e "${GREEN}Successfully installed yay from AUR!${NC}"
+    echo -e "   ${GREEN}⏱️  yay-bin installation completed in ${yay_minutes}m ${yay_seconds}s${NC}"
+    echo -e "${GREEN}Successfully installed yay-bin from AUR!${NC}"
   else
     echo -e "${RED}Failed to install yay after $max_attempts attempts - manual intervention required${NC}"
     echo "You can try installing yay manually with: sudo pacman -S yay"
