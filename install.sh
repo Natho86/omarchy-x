@@ -8,6 +8,22 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export PATH="$SCRIPT_DIR/bin:$PATH"
 OMARCHY_INSTALL="$SCRIPT_DIR/install"
 
+# Color definitions for console output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+WHITE='\033[0;37m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+# Colored progress function
+progress() {
+  echo -e "${CYAN}${BOLD}$1${NC}"
+}
+
 # Give people a chance to retry running the installation
 catch_errors() {
   echo -e "\n\e[31mOmarchy-X installation failed!\e[0m"
@@ -29,87 +45,87 @@ show_subtext() {
 }
 
 # Install prerequisites
-echo "🔧 [PREFLIGHT] Checking system requirements..."
+progress "🔧 [PREFLIGHT] Checking system requirements..."
 source $OMARCHY_INSTALL/preflight/guard.sh
-echo "📦 [PREFLIGHT] Setting up AUR helper (yay)..."
+progress "📦 [PREFLIGHT] Setting up AUR helper (yay)..."
 source $OMARCHY_INSTALL/preflight/aur.sh
-echo "🎨 [PREFLIGHT] Installing presentation tools..."
+progress "🎨 [PREFLIGHT] Installing presentation tools..."
 source $OMARCHY_INSTALL/preflight/presentation.sh
-echo "🔄 [PREFLIGHT] Setting up migration system..."
+progress "🔄 [PREFLIGHT] Setting up migration system..."
 source $OMARCHY_INSTALL/preflight/migrations.sh
 
 # Configuration
 show_logo beams 240
 show_subtext "Let's install Omarchy! [1/5]"
-echo "👤 [CONFIG] Setting up user identification..."
+progress "👤 [CONFIG] Setting up user identification..."
 source $OMARCHY_INSTALL/config/identification.sh
-echo "⚙️  [CONFIG] Copying base configuration files..."
+progress "⚙️  [CONFIG] Copying base configuration files..."
 source $OMARCHY_INSTALL/config/config.sh
-echo "⌨️  [CONFIG] Detecting keyboard layout..."
+progress "⌨️  [CONFIG] Detecting keyboard layout..."
 source $OMARCHY_INSTALL/config/detect-keyboard-layout.sh
-echo "🔧 [CONFIG] Configuring function keys..."
+progress "🔧 [CONFIG] Configuring function keys..."
 source $OMARCHY_INSTALL/config/fix-fkeys.sh
-echo "🌐 [CONFIG] Setting up network configuration..."
+progress "🌐 [CONFIG] Setting up network configuration..."
 source $OMARCHY_INSTALL/config/network.sh
-echo "🔋 [CONFIG] Configuring power management..."
+progress "🔋 [CONFIG] Configuring power management..."
 source $OMARCHY_INSTALL/config/power.sh
-echo "🕐 [CONFIG] Setting timezone..."
+progress "🕐 [CONFIG] Setting timezone..."
 source $OMARCHY_INSTALL/config/timezones.sh
-echo "🎮 [CONFIG] Checking for NVIDIA graphics..."
+progress "🎮 [CONFIG] Checking for NVIDIA graphics..."
 source $OMARCHY_INSTALL/config/nvidia.sh
 
 # Development
 show_logo decrypt 920
 show_subtext "Installing terminal tools [2/5]"
-echo "💻 [TERMINAL] Installing terminal applications..."
+progress "💻 [TERMINAL] Installing terminal applications..."
 source $OMARCHY_INSTALL/development/terminal.sh
-echo "🛠️  [DEV] Installing development tools..."
+progress "🛠️  [DEV] Installing development tools..."
 source $OMARCHY_INSTALL/development/development.sh
-echo "📝 [DEV] Setting up Neovim..."
+progress "📝 [DEV] Setting up Neovim..."
 source $OMARCHY_INSTALL/development/nvim.sh
-echo "💎 [DEV] Installing Ruby..."
+progress "💎 [DEV] Installing Ruby..."
 source $OMARCHY_INSTALL/development/ruby.sh
-echo "🐳 [DEV] Setting up Docker..."
+progress "🐳 [DEV] Setting up Docker..."
 source $OMARCHY_INSTALL/development/docker.sh
-echo "🔥 [SECURITY] Configuring firewall..."
+progress "🔥 [SECURITY] Configuring firewall..."
 source $OMARCHY_INSTALL/development/firewall.sh
 
 # Desktop
 show_logo slice 60
 show_subtext "Installing desktop tools [3/5]"
-echo "🖥️  [DESKTOP] Installing base desktop tools..."
+progress "🖥️  [DESKTOP] Installing base desktop tools..."
 source $OMARCHY_INSTALL/desktop/desktop.sh
-echo "🪟 [DESKTOP] Setting up i3 window manager..."
+progress "🪟 [DESKTOP] Setting up i3 window manager..."
 source $OMARCHY_INSTALL/desktop/i3-desktop.sh
-echo "🎨 [DESKTOP] Configuring themes..."
+progress "🎨 [DESKTOP] Configuring themes..."
 source $OMARCHY_INSTALL/desktop/theme.sh
-echo "📶 [DESKTOP] Setting up Bluetooth..."
+progress "📶 [DESKTOP] Setting up Bluetooth..."
 source $OMARCHY_INSTALL/desktop/bluetooth.sh
-echo "🎵 [DESKTOP] Installing audio controls..."
+progress "🎵 [DESKTOP] Installing audio controls..."
 source $OMARCHY_INSTALL/desktop/asdcontrol.sh
-echo "🔤 [DESKTOP] Installing fonts..."
+progress "🔤 [DESKTOP] Installing fonts..."
 source $OMARCHY_INSTALL/desktop/fonts.sh
-echo "🖨️  [DESKTOP] Setting up printer support..."
+progress "🖨️  [DESKTOP] Setting up printer support..."
 source $OMARCHY_INSTALL/desktop/printer.sh
-echo "🔐 [LOGIN] Configuring auto-login with LightDM..."
+progress "🔐 [LOGIN] Configuring auto-login with LightDM..."
 source $OMARCHY_INSTALL/config/login-x11.sh
 
 # Apps
 show_logo expand
 show_subtext "Installing default applications [4/5]"
-echo "🌐 [APPS] Installing web applications..."
+progress "🌐 [APPS] Installing web applications..."
 source $OMARCHY_INSTALL/apps/webapps.sh
-echo "🎯 [APPS] Installing extra applications..."
+progress "🎯 [APPS] Installing extra applications..."
 source $OMARCHY_INSTALL/apps/xtras.sh
-echo "📄 [APPS] Setting up file associations..."
+progress "📄 [APPS] Setting up file associations..."
 source $OMARCHY_INSTALL/apps/mimetypes.sh
 
 # Updates
 show_logo highlight
 show_subtext "Updating system packages [5/5]"
-echo "🔍 [FINAL] Updating locate database..."
+progress "🔍 [FINAL] Updating locate database..."
 sudo updatedb
-echo "⬆️  [FINAL] Updating all packages..."
+progress "⬆️  [FINAL] Updating all packages..."
 yay -Syu --noconfirm --ignore uwsm
 
 # Reboot

@@ -1,48 +1,16 @@
 #!/bin/bash
 
-# Only add Chaotic-AUR if the architecture is x86_64 so ARM users can build the packages
-if [[ "$(uname -m)" == "x86_64" ]] && ! command -v yay &>/dev/null; then
-  # Try installing Chaotic-AUR keyring and mirrorlist
-  chaotic_key_success=false
-  
-  # Check if key already exists
-  if pacman-key --list-keys 3056513887B78AEB >/dev/null 2>&1; then
-    chaotic_key_success=true
-  else
-    # Try multiple keyservers for better reliability
-    keyservers=(
-      "keyserver.ubuntu.com"
-      "keys.openpgp.org"
-      "pgp.mit.edu"
-      "keyring.debian.org"
-    )
-    
-    for keyserver in "${keyservers[@]}"; do
-      echo "Trying keyserver: $keyserver"
-      if sudo pacman-key --keyserver "$keyserver" --recv-key 3056513887B78AEB 2>/dev/null; then
-        sudo pacman-key --lsign-key 3056513887B78AEB
-        chaotic_key_success=true
-        break
-      fi
-    done
-  fi
-  
-  if $chaotic_key_success &&
-    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 2>/dev/null &&
-    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' 2>/dev/null; then
+# Color definitions for console output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
 
-    # Add Chaotic-AUR repo to pacman config
-    if ! grep -q "chaotic-aur" /etc/pacman.conf; then
-      echo -e '\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' | sudo tee -a /etc/pacman.conf >/dev/null
-    fi
-
-    # Install yay directly from Chaotic-AUR
-    sudo pacman -Sy --needed --noconfirm yay
-    echo "Successfully installed Chaotic-AUR and yay!"
-  else
-    echo "Failed to install Chaotic-AUR (keyserver issues are common), falling back to manual yay installation..."
-  fi
-fi
+# Skip Chaotic-AUR setup as keyservers are unreliable and slow
+# Go directly to building yay from AUR source
 
 # Function to check network connectivity
 check_network() {
@@ -75,7 +43,7 @@ if ! command -v yay &>/dev/null; then
   fi
   
   # Install build tools
-  echo "   📦 Installing build dependencies (base-devel, git)..."
+  echo -e "   ${BLUE}📦 Installing build dependencies (base-devel, git)...${NC}"
   sudo pacman -Sy --needed --noconfirm base-devel git
   
   # Build and install yay with retry logic
@@ -83,14 +51,14 @@ if ! command -v yay &>/dev/null; then
   attempt=1
   
   while [ $attempt -le $max_attempts ]; do
-    echo "   🔨 Attempt $attempt of $max_attempts to build yay..."
+    echo -e "   ${YELLOW}🔨 Attempt $attempt of $max_attempts to build yay...${NC}"
     
     (
       cd /tmp
       rm -rf yay
       
       # Clone with timeout
-      echo "      📥 Downloading yay source code..."
+      echo -e "      ${CYAN}📥 Downloading yay source code...${NC}"
       if timeout 300 git clone https://aur.archlinux.org/yay.git; then
         cd yay
         
@@ -104,16 +72,16 @@ if ! command -v yay &>/dev/null; then
         export MAKEFLAGS="-j$(nproc)"
         
         # Build with timeout and better error handling
-        echo "      🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)..."
+        echo -e "      ${BLUE}🔧 Building yay using $(nproc) CPU cores (this may take a few minutes)...${NC}"
         if timeout 600 makepkg -si --noconfirm; then
-          echo "      ✅ Successfully built yay on attempt $attempt"
+          echo -e "      ${GREEN}✅ Successfully built yay on attempt $attempt${NC}"
           exit 0
         else
-          echo "      ❌ Build failed on attempt $attempt"
+          echo -e "      ${RED}❌ Build failed on attempt $attempt${NC}"
           exit 1
         fi
       else
-        echo "      ❌ Git clone failed on attempt $attempt"
+        echo -e "      ${RED}❌ Git clone failed on attempt $attempt${NC}"
         exit 1
       fi
     )
@@ -146,10 +114,10 @@ if ! command -v yay &>/dev/null; then
   yay_seconds=$((yay_duration % 60))
   
   if command -v yay &>/dev/null; then
-    echo "   ⏱️  yay installation completed in ${yay_minutes}m ${yay_seconds}s"
-    echo "Successfully installed yay from AUR!"
+    echo -e "   ${GREEN}⏱️  yay installation completed in ${yay_minutes}m ${yay_seconds}s${NC}"
+    echo -e "${GREEN}Successfully installed yay from AUR!${NC}"
   else
-    echo "Failed to install yay after $max_attempts attempts - manual intervention required"
+    echo -e "${RED}Failed to install yay after $max_attempts attempts - manual intervention required${NC}"
     echo "You can try installing yay manually with: sudo pacman -S yay"
     exit 1
   fi
