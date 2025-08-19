@@ -36,3 +36,12 @@ ln -snf ~/.config/omarchy/current/theme/btop.theme ~/.config/btop/themes/current
 
 mkdir -p ~/.config/dunst
 ln -snf ~/.config/omarchy/current/theme/dunst.conf ~/.config/dunst/dunstrc
+
+mkdir -p ~/.config/i3status-rust
+ln -snf ~/.config/omarchy/current/theme/i3status-rust.toml ~/.config/i3status-rust/config.toml
+
+mkdir -p ~/.config/rofi
+ln -snf ~/.config/omarchy/current/theme/rofi.rasi ~/.config/rofi/theme.rasi
+
+mkdir -p ~/.config/picom
+ln -snf ~/.config/omarchy/current/theme/picom.conf ~/.config/picom/picom.conf

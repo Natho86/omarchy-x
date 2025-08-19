@@ -1,0 +1,93 @@
+/*
+ * Tokyo Night theme for rofi
+ */
+
+* {
+    /* Tokyo Night colors */
+    bg0: #1a1b26;
+    bg1: #32344a;
+    bg2: #444b6a;
+    fg0: #a9b1d6;
+    fg1: #787c99;
+    blue: #7aa2f7;
+    purple: #bb9af7;
+    red: #f7768e;
+    green: #9ece6a;
+    yellow: #e0af68;
+    cyan: #0db9d7;
+    
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    background-color: @bg0;
+    border-color: @blue;
+    border-radius: 10px;
+    border: 2px;
+    height: 60%;
+    width: 50%;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [inputbar, listview];
+    padding: 20px;
+}
+
+inputbar {
+    background-color: @bg1;
+    border-color: @blue;
+    border-radius: 8px;
+    border: 2px;
+    children: [prompt, entry];
+    margin: 0 0 20px 0;
+    padding: 12px;
+}
+
+prompt {
+    background-color: transparent;
+    color: @blue;
+    font: "JetBrainsMonoNL Nerd Font 12";
+}
+
+entry {
+    background-color: transparent;
+    color: @fg0;
+    cursor: text;
+    font: "JetBrainsMonoNL Nerd Font 12";
+    padding: 0 8px;
+}
+
+listview {
+    background-color: transparent;
+    columns: 1;
+    lines: 10;
+    scrollbar: false;
+}
+
+element {
+    background-color: transparent;
+    border-radius: 6px;
+    color: @fg0;
+    padding: 8px 12px;
+}
+
+element selected {
+    background-color: @blue;
+    color: @bg0;
+}
+
+element-text {
+    background-color: transparent;
+    color: inherit;
+    font: "JetBrainsMonoNL Nerd Font 12";
+}
+
+element-icon {
+    background-color: transparent;
+    size: 24px;
+}
