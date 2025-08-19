@@ -7,4 +7,6 @@ yay -S --noconfirm --needed \
   rofi dunst picom feh scrot \
   xss-lock brightnessctl playerctl \
   polkit-gnome \
-  xdg-desktop-portal-gtk
+  xdg-desktop-portal-gtk \
+  virtualbox-guest-utils \
+  rxvt-unicode alacritty

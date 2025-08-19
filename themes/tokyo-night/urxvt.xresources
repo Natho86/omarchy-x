@@ -1,0 +1,66 @@
+! Tokyo Night theme for urxvt (rxvt-unicode)
+
+! Font settings
+URxvt.font: xft:CaskaydiaMono Nerd Font:size=9:antialias=true:hinting=true
+URxvt.boldFont: xft:CaskaydiaMono Nerd Font:bold:size=9:antialias=true:hinting=true
+URxvt.italicFont: xft:CaskaydiaMono Nerd Font:italic:size=9:antialias=true:hinting=true
+
+! Terminal settings
+URxvt.scrollBar: false
+URxvt.internalBorder: 14
+URxvt.lineSpace: 0
+URxvt.letterSpace: 0
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveLines: 10000
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
+URxvt.urgentOnBell: true
+URxvt.visualBell: false
+
+! Copy/paste with Ctrl+Shift
+URxvt.keysym.Ctrl-Shift-C: eval:selection_to_clipboard
+URxvt.keysym.Ctrl-Shift-V: eval:paste_clipboard
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+! Tokyo Night color scheme
+! Background and foreground
+URxvt.background: #1a1b26
+URxvt.foreground: #a9b1d6
+
+! Cursor
+URxvt.cursorColor: #a9b1d6
+
+! Normal colors
+URxvt.color0:  #32344a
+URxvt.color1:  #f7768e
+URxvt.color2:  #9ece6a
+URxvt.color3:  #e0af68
+URxvt.color4:  #7aa2f7
+URxvt.color5:  #ad8ee6
+URxvt.color6:  #449dab
+URxvt.color7:  #787c99
+
+! Bright colors
+URxvt.color8:  #444b6a
+URxvt.color9:  #ff7a93
+URxvt.color10: #b9f27c
+URxvt.color11: #ff9e64
+URxvt.color12: #7da6ff
+URxvt.color13: #bb9af7
+URxvt.color14: #0db9d7
+URxvt.color15: #acb0d0
+
+! Fade when not focused
+URxvt.fading: 20
+URxvt.fadeColor: #1a1b26
+
+! Extensions
+URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select
+URxvt.url-select.launcher: chromium
+URxvt.url-select.underline: true
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search

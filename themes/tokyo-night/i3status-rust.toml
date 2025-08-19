@@ -1,7 +1,9 @@
 # Tokyo Night theme for i3status-rust
 
-theme = "plain"
 icons = "awesome6"
+
+[theme]
+name = "plain"
 
 [theme.overrides]
 idle_bg = "#1a1b26"

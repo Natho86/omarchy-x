@@ -45,3 +45,6 @@ ln -snf ~/.config/omarchy/current/theme/rofi.rasi ~/.config/rofi/theme.rasi
 
 mkdir -p ~/.config/picom
 ln -snf ~/.config/omarchy/current/theme/picom.conf ~/.config/picom/picom.conf
+
+# Link urxvt theme to home directory (urxvt reads from ~/.Xresources)
+ln -snf ~/.config/omarchy/current/theme/urxvt.xresources ~/.Xresources

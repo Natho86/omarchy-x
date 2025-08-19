@@ -7,5 +7,10 @@ export XDG_CURRENT_DESKTOP=i3
 export XDG_SESSION_DESKTOP=i3
 export XDG_SESSION_TYPE=x11
 
+# Load Xresources (for urxvt theming)
+if [ -f ~/.Xresources ]; then
+    xrdb -merge ~/.Xresources
+fi
+
 # Start i3 window manager
 exec i3
