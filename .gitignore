@@ -1,0 +1,101 @@
+# Claude Code specific files
+.claude/
+CLAUDE.md
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+.directory
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-*
+.atom/
+
+# Log files
+*.log
+logs/
+*.out
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+temp/
+
+# Cache directories
+.cache/
+*.cache
+
+# Build artifacts
+build/
+dist/
+*.o
+*.so
+*.a
+*.exe
+
+# Development artifacts
+node_modules/
+.npm
+.yarn/
+package-lock.json
+yarn.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+.env
+.venv
+env/
+venv/
+
+# Archive files (unless specifically needed)
+*.zip
+*.tar.gz
+*.tar.bz2
+*.rar
+*.7z
+
+# Local configuration files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Personal notes and documentation
+TODO.md
+NOTES.md
+notes/
+docs/local/
+
+# Backup files
+*.bak
+*.backup
+backup/
+
+# System state files
+.local/state/

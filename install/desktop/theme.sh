@@ -11,7 +11,7 @@ if ! yay -Q gnome-themes-extra &>/dev/null; then
 fi
 
 # Allow icons to match the theme
-if ! yay -! yaru-icon-theme &>/dev/null; then
+if ! yay -Q yaru-icon-theme &>/dev/null; then
   yay -S --noconfirm yaru-icon-theme
 fi
 
@@ -34,5 +34,5 @@ ln -snf ~/.config/omarchy/current/theme/neovim.lua ~/.config/nvim/lua/plugins/th
 mkdir -p ~/.config/btop/themes
 ln -snf ~/.config/omarchy/current/theme/btop.theme ~/.config/btop/themes/current.theme
 
-mkdir -p ~/.config/mako
-ln -snf ~/.config/omarchy/current/theme/mako.ini ~/.config/mako/config
+mkdir -p ~/.config/dunst
+ln -snf ~/.config/omarchy/current/theme/dunst.conf ~/.config/dunst/dunstrc

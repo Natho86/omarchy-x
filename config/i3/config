@@ -1,0 +1,34 @@
+# i3 configuration for Omarchy-X
+# Learn more about i3 configuration: https://i3wm.org/docs/userguide.html
+
+# Use defaults from Omarchy defaults (but don't edit these directly!)
+include ~/.local/share/omarchy/default/i3/autostart.conf
+include ~/.local/share/omarchy/default/i3/bindings/media.conf
+include ~/.local/share/omarchy/default/i3/bindings/tiling.conf  
+include ~/.local/share/omarchy/default/i3/bindings/utilities.conf
+include ~/.local/share/omarchy/default/i3/appearance.conf
+include ~/.local/share/omarchy/default/i3/workspaces.conf
+include ~/.local/share/omarchy/default/i3/window_rules.conf
+include ~/.config/omarchy/current/theme/i3.conf
+
+# Change your own setup in these files (and overwrite any settings from defaults!)
+include ~/.config/i3/bindings.conf
+include ~/.config/i3/autostart.conf
+include ~/.config/i3/appearance.conf
+include ~/.config/i3/workspaces.conf
+
+# Set mod key to Super (Windows key)
+set $mod Mod4
+
+# Font for window titles and bar
+font pango:JetBrainsMonoNL Nerd Font 10
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Start i3bar with i3status-rust
+bar {
+    status_command i3status-rs ~/.config/i3status-rust/config.toml
+    position top
+    font pango:JetBrainsMonoNL Nerd Font 10
+}

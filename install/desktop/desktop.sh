@@ -2,15 +2,11 @@
 
 yay -S --noconfirm --needed \
   brightnessctl playerctl pamixer wiremix wireplumber \
-  fcitx5 fcitx5-gtk fcitx5-qt wl-clip-persist \
+  fcitx5 fcitx5-gtk fcitx5-qt xclip \
   nautilus sushi ffmpegthumbnailer gvfs-mtp \
-  slurp satty \
+  slop satty \
   mpv evince imv \
   chromium
 
-# Add screen recorder based on GPU
-if lspci | grep -qi 'nvidia'; then
-  yay -S --noconfirm --needed wf-recorder
-else
-  yay -S --noconfirm --needed wl-screenrec
-fi
+# Add screen recorder for X11
+yay -S --noconfirm --needed obs-studio
