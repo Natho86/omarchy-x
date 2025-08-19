@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Hyprland launched via UWSM and login directly as user, rely on disk encryption + hyprlock for security
-if ! command -v uwsm &>/dev/null || ! command -v plymouth &>/dev/null; then
-  sudo pacman -U --noconfirm https://archive.archlinux.org/packages/u/uwsm/uwsm-0.23.0-1-any.pkg.tar.zst
+# i3 launched via X11 startx, rely on disk encryption + i3lock for security
+if ! command -v plymouth &>/dev/null; then
   yay -S --noconfirm --needed plymouth
 fi
+# Note: UWSM not needed for X11/i3 setup
 
 # ==============================================================================
 # PLYMOUTH SETUP
@@ -224,7 +224,7 @@ PartOf=graphical.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/seamless-login uwsm start -- hyprland.desktop
+ExecStart=/usr/local/bin/seamless-login startx ~/.xinitrc
 Restart=always
 RestartSec=2
 User=$USER

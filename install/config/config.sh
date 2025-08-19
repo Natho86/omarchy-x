@@ -6,6 +6,9 @@ cp -R ~/.local/share/omarchy/config/* ~/.config/
 # Use default bashrc from Omarchy
 cp ~/.local/share/omarchy/default/bashrc ~/.bashrc
 
+# Use default xinitrc for X11 session
+cp ~/.local/share/omarchy/default/xinitrc ~/.xinitrc
+
 # Ensure application directory exists for update-desktop-database
 mkdir -p ~/.local/share/applications
 

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Omarchy-X .xinitrc - X11 session startup script
+
+# Source system-wide xinitrc
+if [ -f /etc/X11/xinit/xinitrc ]; then
+    . /etc/X11/xinit/xinitrc
+fi
+
+# Set environment variables
+export XDG_CURRENT_DESKTOP=i3
+export XDG_SESSION_DESKTOP=i3
+export XDG_SESSION_TYPE=x11
+
+# Start i3 window manager
+exec i3
