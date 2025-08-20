@@ -19,6 +19,10 @@ URxvt.scrollTtyKeypress: true
 URxvt.urgentOnBell: true
 URxvt.visualBell: false
 
+! Shell and login settings
+URxvt.loginShell: true
+URxvt.shell: /bin/bash
+
 ! Copy/paste with Ctrl+Shift
 URxvt.keysym.Ctrl-Shift-C: eval:selection_to_clipboard
 URxvt.keysym.Ctrl-Shift-V: eval:paste_clipboard

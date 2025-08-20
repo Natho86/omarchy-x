@@ -37,8 +37,9 @@ ln -snf ~/.config/omarchy/current/theme/btop.theme ~/.config/btop/themes/current
 mkdir -p ~/.config/dunst
 ln -snf ~/.config/omarchy/current/theme/dunst.conf ~/.config/dunst/dunstrc
 
-mkdir -p ~/.config/i3status-rust
-ln -snf ~/.config/omarchy/current/theme/i3status-rust.toml ~/.config/i3status-rust/config.toml
+mkdir -p ~/.config/polybar
+ln -snf ~/.config/omarchy/current/theme/polybar.ini ~/.config/polybar/config.ini
+ln -snf ~/.local/share/omarchy/default/polybar/launch.sh ~/.config/polybar/launch.sh
 
 mkdir -p ~/.config/rofi
 ln -snf ~/.config/omarchy/current/theme/rofi.rasi ~/.config/rofi/theme.rasi

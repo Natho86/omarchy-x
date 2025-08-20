@@ -23,11 +23,6 @@ separator_fg = "#32344a"
 [[block]]
 block = "focused_window"
 max_width = 50
-show_marks = "visible"
-
-[[block]]
-block = "workspaces"
-icons_format = "{icon}"
 
 [[block]]
 block = "music"

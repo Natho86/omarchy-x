@@ -18,20 +18,20 @@ menu() {
     fi
   fi
 
-  echo -e "$options" | walker --dmenu --theme dmenu_250 -p "$prompt…" "${args[@]}"
+  echo -e "$options" | rofi -dmenu -p "$prompt" "${args[@]}"
 }
 
 terminal() {
-  alacritty --class Omarchy -e $1
+  urxvt -e $1
 }
 
 present_terminal() {
-  alacritty --class Omarchy -e bash -c "omarchy-show-logo; eval \"$1\"; omarchy-show-done;"
+  urxvt -e bash -c "omarchy-show-logo; eval \"$1\"; omarchy-show-done;"
 }
 
 edit_in_nvim() {
   notify-send "Editing config file" "$1"
-  alacritty -e nvim "$1"
+  urxvt -e nvim "$1"
 }
 
 open_web() {
@@ -330,7 +330,7 @@ show_system_menu() {
   case $(menu "System" "  Lock\n󰤄  Suspend\n  Relaunch\n󰜉  Restart\n󰐥  Shutdown") in
   *Lock*) omarchy-lock-screen ;;
   *Suspend*) systemctl suspend ;;
-  *Relaunch*) uwsm stop ;;
+  *Relaunch*) i3-msg restart ;;
   *Restart*) systemctl reboot ;;
   *Shutdown*) systemctl poweroff ;;
   *) show_main_menu ;;
@@ -343,7 +343,7 @@ show_main_menu() {
 
 go_to_menu() {
   case "${1,,}" in
-  *apps*) walker -p "Launch…" ;;
+  *apps*) rofi -show drun -p "Launch" ;;
   *learn*) show_learn_menu ;;
   *style*) show_style_menu ;;
   *theme*) show_theme_menu ;;
