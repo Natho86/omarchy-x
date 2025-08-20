@@ -23,6 +23,11 @@ URxvt.visualBell: false
 URxvt.loginShell: true
 URxvt.shell: /bin/bash
 
+! Fix terminal initialization issues
+URxvt.buffered: true
+URxvt.print-pipe: cat > $(TMPDIR:-/tmp)/urxvt.$(date +'%Y%M%d%H%m%S')
+URxvt.modifier: alt
+
 ! Copy/paste with Ctrl+Shift
 URxvt.keysym.Ctrl-Shift-C: eval:selection_to_clipboard
 URxvt.keysym.Ctrl-Shift-V: eval:paste_clipboard

@@ -1,0 +1,75 @@
+/*
+ * Fixed Rofi configuration for Omarchy-X
+ * Fixes deprecated theme syntax
+ */
+
+configuration {
+    modi: "drun,run,window";
+    width: 50;
+    lines: 15;
+    columns: 1;
+    font: "DejaVu Sans 12";
+    bw: 1;
+    location: 0;
+    padding: 5;
+    yoffset: 0;
+    xoffset: 0;
+    fixed-num-lines: true;
+    show-icons: true;
+    terminal: "urxvt";
+    ssh-client: "ssh";
+    ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";
+    run-command: "{cmd}";
+    run-list-command: "";
+    run-shell-command: "{terminal} -e {cmd}";
+    window-command: "wmctrl -i -R {window}";
+    window-match-fields: "all";
+    icon-theme: "Adwaita";
+    drun-match-fields: "name,generic,exec,categories,keywords";
+    drun-categories: "";
+    drun-show-actions: false;
+    drun-display-format: "{name}";
+    drun-url-launcher: "xdg-open";
+    disable-history: false;
+    ignored-prefixes: "";
+    sort: false;
+    sorting-method: "normal";
+    case-sensitive: false;
+    cycle: true;
+    sidebar-mode: false;
+    eh: 1;
+    auto-select: false;
+    parse-hosts: false;
+    parse-known-hosts: true;
+    combi-modi: "window,run";
+    matching: "normal";
+    tokenize: true;
+    m: "-5";
+    line-margin: 2;
+    line-padding: 1;
+    filter: "";
+    separator-style: "dash";
+    hide-scrollbar: false;
+    fullscreen: false;
+    fake-transparency: false;
+    dpi: -1;
+    threads: 0;
+    scroll-method: 0;
+    window-format: "{w}    {c}   {t}";
+    click-to-exit: true;
+    show-match: true;
+    max-history-size: 25;
+    combi-hide-mode-prefix: false;
+    display-window: "";
+    display-windowcd: "";
+    display-run: "";
+    display-ssh: "";
+    display-drun: "";
+    display-combi: "";
+    display-keys: "";
+    kb-primary-paste: "Control+V,Shift+Insert";
+    kb-secondary-paste: "Control+v,Insert";
+}
+
+/* Apply theme after configuration block */
+@theme "~/.config/rofi/theme.rasi"

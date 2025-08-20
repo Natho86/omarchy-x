@@ -1,0 +1,40 @@
+# Minimal urxvt configuration for testing terminal issues
+# Apply with: xrdb -merge ~/.Xresources
+
+# Basic font setting
+URxvt.font: xft:monospace:size=10
+
+# Simple terminal settings
+URxvt.scrollBar: false
+URxvt.background: #1a1b26
+URxvt.foreground: #a9b1d6
+
+# Essential settings - no complex features
+URxvt.saveLines: 1000
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
+
+# Simple copy/paste
+URxvt.keysym.Ctrl-Shift-C: eval:selection_to_clipboard
+URxvt.keysym.Ctrl-Shift-V: eval:paste_clipboard
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+# Basic colors
+URxvt.color0:  #32344a
+URxvt.color1:  #f7768e
+URxvt.color2:  #9ece6a
+URxvt.color3:  #e0af68
+URxvt.color4:  #7aa2f7
+URxvt.color5:  #ad8ee6
+URxvt.color6:  #449dab
+URxvt.color7:  #787c99
+URxvt.color8:  #444b6a
+URxvt.color9:  #ff7a93
+URxvt.color10: #b9f27c
+URxvt.color11: #ff9e64
+URxvt.color12: #7da6ff
+URxvt.color13: #bb9af7
+URxvt.color14: #0db9d7
+URxvt.color15: #acb0d0
