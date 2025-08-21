@@ -1,0 +1,73 @@
+!Everforest theme
+! general
+*foreground: #d3c6aa
+*background: #2d353b
+*cursorColor: #d3c6aa
+
+! terminal padding color
+*borderColor: #2d353b
+
+! black
+*color0: #2d353b
+*color8: #475258
+
+! red
+*color1: #e67e80
+*color9: #e67e80
+
+! green
+*color2: #a7c080
+*color10: #a7c080
+
+! yellow
+*color3: #dbbc7f
+*color11: #dbbc7f
+
+! blue
+*color4: #7fbbb3
+*color12: #7fbbb3
+
+! magenta
+*color5: #d699b6
+*color13: #d699b6
+
+! cyan
+*color6: #83c092
+*color14: #83c092
+
+! white
+*color7: #d3c6aa
+*color15: #d3c6aa
+! Everforest theme ends
+
+! --- urxvt ---
+URxvt*termName: rxvt-unicode-256color
+URxvt*saveLines: 15000
+URxvt*scrollBar: false
+URxvt*internalBorder: 8
+URxvt*letterSpace: 0
+URxvt*cursorBlink: true
+URxvt*depth: 32
+! comment the next line if you don't run a compositor
+!URxvt*background: [95]#2d353b
+
+! Font (pick one)
+URxvt.font: xft:JetBrainsMono Nerd Font:size=12
+! URxvt.font: xft:Hack:size=12
+! URxvt.font: xft:FiraCode Nerd Font Mono:size=12
+
+! Perl extensions & useful bindings
+!URxvt.perl-ext-common: default,clipboard,matcher,font-size
+URxvt.keysym.C-Shift-C: perl:clipboard:copy
+URxvt.keysym.C-Shift-V: perl:clipboard:paste
+URxvt.copyCommand: xclip -i -selection clipboard
+URxvt.pasteCommand: xclip -o -selection clipboard
+
+! URL open (matcher)
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.matcher.button: 1
+
+! On-the-fly font resize (requires font-size perl extension)
+!URxvt.keysym.C-Up:     font-size:increase
+!URxvt.keysym.C-Down:   font-size:decrease
+!URxvt.keysym.C-equal:  font-size:reset

@@ -25,8 +25,8 @@ for f in ~/.local/share/omarchy/themes/*; do ln -nfs "$f" ~/.config/omarchy/them
 
 # Set initial theme
 mkdir -p ~/.config/omarchy/current
-ln -snf ~/.config/omarchy/themes/tokyo-night ~/.config/omarchy/current/theme
-ln -snf ~/.config/omarchy/current/theme/backgrounds/1-scenery-pink-lakeside-sunset-lake-landscape-scenic-panorama-7680x3215-144.png ~/.config/omarchy/current/background
+ln -snf ~/.config/omarchy/themes/everforest ~/.config/omarchy/current/theme
+ln -snf ~/.config/omarchy/current/theme/backgrounds/1-everforest.jpg ~/.config/omarchy/current/background
 
 # Set specific app links for current theme
 ln -snf ~/.config/omarchy/current/theme/neovim.lua ~/.config/nvim/lua/plugins/theme.lua
@@ -44,8 +44,8 @@ ln -snf ~/.local/share/omarchy/default/polybar/launch.sh ~/.config/polybar/launc
 mkdir -p ~/.config/rofi
 ln -snf ~/.config/omarchy/current/theme/rofi.rasi ~/.config/rofi/theme.rasi
 
-mkdir -p ~/.config/picom
-ln -snf ~/.config/omarchy/current/theme/picom.conf ~/.config/picom/picom.conf
+# mkdir -p ~/.config/picom
+# ln -snf ~/.config/omarchy/current/theme/picom.conf ~/.config/picom/picom.conf  # Disabled for VirtualBox compatibility
 
 # Link urxvt theme to home directory (urxvt reads from ~/.Xresources)
 ln -snf ~/.config/omarchy/current/theme/urxvt.xresources ~/.Xresources

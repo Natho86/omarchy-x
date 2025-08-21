@@ -1,0 +1,93 @@
+/*
+ * Everforest theme for rofi
+ */
+
+* {
+    /* Everforest colors */
+    bg0: #2d353b;
+    bg1: #475258;
+    bg2: #5c6a72;
+    fg0: #d3c6aa;
+    fg1: #859289;
+    green: #a7c080;
+    blue: #7fbbb3;
+    red: #e67e80;
+    yellow: #dbbc7f;
+    magenta: #d699b6;
+    cyan: #83c092;
+    
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    background-color: @bg0;
+    border-color: @green;
+    border-radius: 10px;
+    border: 2px;
+    height: 60%;
+    width: 50%;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [inputbar, listview];
+    padding: 20px;
+}
+
+inputbar {
+    background-color: @bg1;
+    border-color: @green;
+    border-radius: 8px;
+    border: 2px;
+    children: [prompt, entry];
+    margin: 0 0 20px 0;
+    padding: 12px;
+}
+
+prompt {
+    background-color: transparent;
+    color: @green;
+    font: "JetBrainsMonoNL Nerd Font 12";
+}
+
+entry {
+    background-color: transparent;
+    color: @fg0;
+    cursor: text;
+    font: "JetBrainsMonoNL Nerd Font 12";
+    padding: 0 8px;
+}
+
+listview {
+    background-color: transparent;
+    columns: 1;
+    lines: 10;
+    scrollbar: false;
+}
+
+element {
+    background-color: transparent;
+    border-radius: 6px;
+    color: @fg0;
+    padding: 8px 12px;
+}
+
+element selected {
+    background-color: @green;
+    color: @bg0;
+}
+
+element-text {
+    background-color: transparent;
+    color: inherit;
+    font: "JetBrainsMonoNL Nerd Font 12";
+}
+
+element-icon {
+    background-color: transparent;
+    size: 24px;
+}

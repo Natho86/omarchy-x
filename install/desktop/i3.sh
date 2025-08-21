@@ -9,4 +9,4 @@ yay -S --noconfirm --needed \
   polkit-gnome \
   xdg-desktop-portal-gtk \
   virtualbox-guest-utils \
-  rxvt-unicode alacritty
+  rxvt-unicode
